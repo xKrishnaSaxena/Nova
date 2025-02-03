@@ -16,7 +16,7 @@ app.get("/", async (req, res) => {
   res.json({ message: "Hii , from Nova Backend!!" });
 });
 app.use("/api/auth", require("./routers/authRouter").default);
-
+app.use("/api/deposit", require("./routers/depositRouter").default);
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });
 });

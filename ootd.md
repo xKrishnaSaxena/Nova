@@ -13,6 +13,9 @@
 - [x] Authentication
   - [x] Signup
   - [x] Login
-- [ ] Deposit
-  - [ ] Generate Deposit Address (with QR)
-  - [ ] Get Deposit Address
+- [x] Middlewares
+  - [x] Protect
+- [x] Deposit
+  - [x] Generate Deposit Address
+  - [ ] QR
+  - [x] Get Deposit Address
