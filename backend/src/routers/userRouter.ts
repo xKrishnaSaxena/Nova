@@ -1,11 +1,9 @@
 import express from "express";
 import { protect } from "../middlewares/auth";
-import { generateDepositAddress } from "../controllers/depositController";
+import { getUser } from "../controllers/userController";
 
 const router = express.Router();
-
 router.use(protect);
-
-router.post("/generate", generateDepositAddress);
+router.get("/", getUser);
 
 export default router;

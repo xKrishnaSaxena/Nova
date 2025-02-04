@@ -7,7 +7,7 @@
 - [x] Init
 - [x] Login
 - [x] Signup
-- [ ] Deposit
+- [x] Deposit
 - [ ] Withdraw
 
 ## Backend
@@ -22,7 +22,8 @@
 - [x] Deposit
   - [x] Generate Deposit Address
   - [ ] QR
-  - [x] Get Deposit Address
+- [x] User
+  - [x] Get user info
 - [ ] Token (ERC20)
   - [ ] Mint
   - [ ] Transfer
