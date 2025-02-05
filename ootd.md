@@ -28,7 +28,8 @@
   - [ ] Mint
   - [ ] Transfer
   - [ ] Burn
-- [ ] Token (SPL)
-  - [ ] Mint
+- [] Token (SPL)
+  - [x] Create
+  - [x] Mint
   - [ ] Transfer
   - [ ] Burn

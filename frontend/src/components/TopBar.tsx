@@ -1,3 +1,7 @@
+import {
+  WalletDisconnectButton,
+  WalletMultiButton,
+} from "@solana/wallet-adapter-react-ui";
 import { useUser } from "../contexts/userContext";
 
 const Topbar = () => {
@@ -17,6 +21,16 @@ const Topbar = () => {
         </span>
 
         <span className="text-sm">💰 {user?.balance ?? 0} ETH</span>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            padding: 20,
+          }}
+        >
+          <WalletMultiButton />
+          <WalletDisconnectButton />
+        </div>
       </div>
     </div>
   );

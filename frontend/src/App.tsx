@@ -5,6 +5,8 @@ import Signup from "./pages/Signup";
 import Home from "./pages/Home";
 import Deposit from "./pages/Deposit";
 import Withdraw from "./pages/Withdraw";
+import CreateTokenPage from "./pages/CreateTokenSPL";
+import MintTokenPage from "./pages/MintTokenSPL";
 
 function App() {
   return (
@@ -15,6 +17,8 @@ function App() {
         <Route path="/signup" element=<Signup /> />
         <Route path="/deposit" element=<Deposit /> />
         <Route path="/withdraw" element=<Withdraw /> />
+        <Route path="/spl-create" element=<CreateTokenPage /> />
+        <Route path="/spl-mint" element=<MintTokenPage /> />
       </Routes>
     </BrowserRouter>
   );
