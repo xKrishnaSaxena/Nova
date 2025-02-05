@@ -13,6 +13,7 @@ export const getUser = async (req: Request, res: Response) => {
         depositAddress: "",
         balance: user.balance,
       });
+      return;
     }
 
     res.status(200).json({
@@ -20,6 +21,7 @@ export const getUser = async (req: Request, res: Response) => {
       depositAddress: user.depositAddress,
       balance: user.balance,
     });
+    return;
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
   }

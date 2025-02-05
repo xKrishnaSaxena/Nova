@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
+import { encrypt } from "../utils/crypto";
 
 export interface IUser {
   username: string;
@@ -50,20 +51,13 @@ UserSchema.pre<UserDocument>("save", async function (next) {
     this.password = await bcrypt.hash(this.password, salt);
   }
   if (this.isModified("privateKey") && this.privateKey) {
-    const salt = await bcrypt.genSalt(10);
-    this.privateKey = await bcrypt.hash(this.privateKey, salt);
+    this.privateKey = encrypt(this.privateKey);
   }
   next();
 });
 
 UserSchema.methods.comparePassword = async function (enteredPassword: string) {
   return await bcrypt.compare(enteredPassword, this.password);
-};
-
-UserSchema.methods.comparePrivateKey = async function (
-  enteredPrivateKey: string
-) {
-  return await bcrypt.compare(enteredPrivateKey, this.privateKey);
 };
 
 export const User = mongoose.model<UserDocument>("User", UserSchema);

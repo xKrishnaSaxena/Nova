@@ -8,7 +8,7 @@
 - [x] Login
 - [x] Signup
 - [x] Deposit
-- [ ] Withdraw
+- [x] Withdraw
 
 ## Backend
 
@@ -21,7 +21,7 @@
   - [x] Protect
 - [x] Deposit
   - [x] Generate Deposit Address
-  - [ ] QR
+  - [x] QR
 - [x] User
   - [x] Get user info
 - [ ] Token (ERC20)
