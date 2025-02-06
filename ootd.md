@@ -10,7 +10,7 @@
 - [x] Deposit
   - [x] QR
 - [x] Withdraw
-- [] Token (SPL)
+- [ ] Token (SPL)
   - [x] Create
   - [x] Mint
   - [x] Transfer
