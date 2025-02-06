@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { PublicKey } from "@solana/web3.js";
 import { AuthorityType } from "@solana/spl-token";
-import { createAuthorityTransaction } from "../utils/token";
-import ManageAuthorityForm from "../components/token/ManageAuthorityFormSPL";
+import { createAuthorityTransaction } from "../../utils/tokenSPL";
+import ManageAuthorityForm from "../../components/tokenSPL/ManageAuthorityFormSPL";
 
 export default function ManageAuthorityPage() {
   const { connection } = useConnection();

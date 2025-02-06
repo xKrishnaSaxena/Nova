@@ -1,21 +1,21 @@
 import { useState } from "react";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { PublicKey } from "@solana/web3.js";
-import BurnTokenForm from "../components/token/BurnTokenFormSPL";
-import { burnTokens } from "../utils/token";
-import {
-  getAssociatedTokenAddressSync,
-  TOKEN_2022_PROGRAM_ID,
-} from "@solana/spl-token";
+import TransferTokenForm from "../../components/tokenSPL/TransferTokenFormSPL";
+import { transferTokens } from "../../utils/tokenSPL";
 
-export default function BurnTokenPage() {
+export default function TransferTokenPage() {
   const { connection } = useConnection();
   const wallet = useWallet();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  const handleBurn = async (mintAddress: string, amount: string) => {
+  const handleTransfer = async (
+    mintAddress: string,
+    recipient: string,
+    amount: string
+  ) => {
     if (!wallet.publicKey || !wallet.sendTransaction) {
       setError("Wallet not connected");
       return;
@@ -27,21 +27,15 @@ export default function BurnTokenPage() {
       setSuccess("");
 
       const amountNumber = parseFloat(amount);
-      if (isNaN(amountNumber)) throw new Error("Invalid burn amount");
-
       const mintPublicKey = new PublicKey(mintAddress);
-      const ata = getAssociatedTokenAddressSync(
-        mintPublicKey,
-        wallet.publicKey,
-        false,
-        TOKEN_2022_PROGRAM_ID
-      );
+      const recipientPublicKey = new PublicKey(recipient);
 
-      const tx = await burnTokens(
+      const tx = await transferTokens(
         connection,
         mintPublicKey,
-        ata,
         wallet.publicKey,
+        wallet.publicKey,
+        recipientPublicKey,
         amountNumber
       );
 
@@ -58,9 +52,9 @@ export default function BurnTokenPage() {
         lastValidBlockHeight,
       });
 
-      setSuccess("Tokens burned successfully!");
+      setSuccess("Transfer successful!");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Burn failed");
+      setError(err instanceof Error ? err.message : "Transfer failed");
     } finally {
       setLoading(false);
     }
@@ -68,11 +62,11 @@ export default function BurnTokenPage() {
 
   return (
     <div className="page-container">
-      <h1>Burn Tokens</h1>
-      {loading && <p>Burning tokens...</p>}
+      <h1>Transfer Tokens</h1>
+      {loading && <p>Processing transfer...</p>}
       {error && <p className="error">{error}</p>}
       {success && <p className="success">{success}</p>}
-      <BurnTokenForm onSubmit={handleBurn} disabled={loading} />
+      <TransferTokenForm onSubmit={handleTransfer} disabled={loading} />
     </div>
   );
 }

@@ -5,12 +5,16 @@ import Signup from "./pages/Signup";
 import Home from "./pages/Home";
 import Deposit from "./pages/Deposit";
 import Withdraw from "./pages/Withdraw";
-import CreateTokenPage from "./pages/CreateTokenSPL";
-import MintTokenPage from "./pages/MintTokenSPL";
-import TransferTokenPage from "./pages/TransferTokenSPL";
-import BurnTokenPage from "./pages/BurnTokenSPL";
+import CreateTokenPage from "./pages/tokenSPL/CreateTokenSPL";
+import MintTokenPage from "./pages/tokenSPL/MintTokenSPL";
+import TransferTokenPage from "./pages/tokenSPL/TransferTokenSPL";
+import BurnTokenPage from "./pages/tokenSPL/BurnTokenSPL";
 
-import ManageAuthorityPage from "./pages/ManageAuthoritySPL";
+import ManageAuthorityPage from "./pages/tokenSPL/ManageAuthoritySPL";
+import CreateTokenPageERC from "./pages/tokenERC/CreateTokenERC";
+import MintTokenPageERC from "./pages/tokenERC/MintTokenERC";
+import BurnPage from "./pages/tokenERC/BurnTokenERC";
+import TransferPage from "./pages/tokenERC/TransferTokenERC";
 
 function App() {
   return (
@@ -26,6 +30,10 @@ function App() {
         <Route path="/spl-transfer" element=<TransferTokenPage /> />
         <Route path="/spl-burn" element=<BurnTokenPage /> />
         <Route path="/spl-manage" element=<ManageAuthorityPage /> />
+        <Route path="/erc-create" element=<CreateTokenPageERC /> />
+        <Route path="/erc-mint" element=<MintTokenPageERC /> />
+        <Route path="/erc-burn" element=<BurnPage /> />
+        <Route path="/erc-transfer" element=<TransferPage /> />
       </Routes>
     </BrowserRouter>
   );

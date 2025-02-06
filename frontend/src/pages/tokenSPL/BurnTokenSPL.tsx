@@ -1,21 +1,21 @@
 import { useState } from "react";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { PublicKey } from "@solana/web3.js";
-import { mintToAddress } from "../utils/token";
-import MintTokenFormSPL from "../components/token/MintTokenFormSPL";
+import BurnTokenForm from "../../components/tokenSPL/BurnTokenFormSPL";
+import { burnTokens } from "../../utils/tokenSPL";
+import {
+  getAssociatedTokenAddressSync,
+  TOKEN_2022_PROGRAM_ID,
+} from "@solana/spl-token";
 
-export default function MintTokenPage() {
+export default function BurnTokenPage() {
   const { connection } = useConnection();
   const wallet = useWallet();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  const handleMintToken = async (
-    mintAddress: string,
-    recipient: string,
-    amount: string
-  ) => {
+  const handleBurn = async (mintAddress: string, amount: string) => {
     if (!wallet.publicKey || !wallet.sendTransaction) {
       setError("Wallet not connected");
       return;
@@ -27,35 +27,40 @@ export default function MintTokenPage() {
       setSuccess("");
 
       const amountNumber = parseFloat(amount);
-      if (isNaN(amountNumber)) throw new Error("Invalid mint amount");
+      if (isNaN(amountNumber)) throw new Error("Invalid burn amount");
 
       const mintPublicKey = new PublicKey(mintAddress);
-      const recipientPublicKey = new PublicKey(recipient);
-
-      const transaction = await mintToAddress(
-        connection,
+      const ata = getAssociatedTokenAddressSync(
         mintPublicKey,
         wallet.publicKey,
-        recipientPublicKey,
+        false,
+        TOKEN_2022_PROGRAM_ID
+      );
+
+      const tx = await burnTokens(
+        connection,
+        mintPublicKey,
+        ata,
+        wallet.publicKey,
         amountNumber
       );
 
-      transaction.feePayer = wallet.publicKey;
-      const { blockhash } = await connection.getLatestBlockhash();
-      transaction.recentBlockhash = blockhash;
+      const { blockhash, lastValidBlockHeight } =
+        await connection.getLatestBlockhash();
+      tx.feePayer = wallet.publicKey;
+      tx.recentBlockhash = blockhash;
 
-      const txSignature = await wallet.sendTransaction(transaction, connection);
+      const txSignature = await wallet.sendTransaction(tx, connection);
 
-      const { lastValidBlockHeight } = await connection.getLatestBlockhash();
       await connection.confirmTransaction({
         signature: txSignature,
         blockhash,
         lastValidBlockHeight,
       });
 
-      setSuccess("Tokens minted successfully!");
+      setSuccess("Tokens burned successfully!");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to mint tokens");
+      setError(err instanceof Error ? err.message : "Burn failed");
     } finally {
       setLoading(false);
     }
@@ -63,11 +68,11 @@ export default function MintTokenPage() {
 
   return (
     <div className="page-container">
-      <h1>Mint Existing Token</h1>
-      {loading && <p>Minting tokens...</p>}
+      <h1>Burn Tokens</h1>
+      {loading && <p>Burning tokens...</p>}
       {error && <p className="error">{error}</p>}
       {success && <p className="success">{success}</p>}
-      <MintTokenFormSPL onMint={handleMintToken} />
+      <BurnTokenForm onSubmit={handleBurn} disabled={loading} />
     </div>
   );
 }

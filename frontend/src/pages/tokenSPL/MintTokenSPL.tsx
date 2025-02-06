@@ -1,17 +1,17 @@
 import { useState } from "react";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { PublicKey } from "@solana/web3.js";
-import TransferTokenForm from "../components/token/TransferTokenFormSPL";
-import { transferTokens } from "../utils/token";
+import { mintToAddress } from "../../utils/tokenSPL";
+import MintTokenFormSPL from "../../components/tokenSPL/MintTokenFormSPL";
 
-export default function TransferTokenPage() {
+export default function MintTokenPage() {
   const { connection } = useConnection();
   const wallet = useWallet();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  const handleTransfer = async (
+  const handleMintToken = async (
     mintAddress: string,
     recipient: string,
     amount: string
@@ -27,34 +27,35 @@ export default function TransferTokenPage() {
       setSuccess("");
 
       const amountNumber = parseFloat(amount);
+      if (isNaN(amountNumber)) throw new Error("Invalid mint amount");
+
       const mintPublicKey = new PublicKey(mintAddress);
       const recipientPublicKey = new PublicKey(recipient);
 
-      const tx = await transferTokens(
+      const transaction = await mintToAddress(
         connection,
         mintPublicKey,
-        wallet.publicKey,
         wallet.publicKey,
         recipientPublicKey,
         amountNumber
       );
 
-      const { blockhash, lastValidBlockHeight } =
-        await connection.getLatestBlockhash();
-      tx.feePayer = wallet.publicKey;
-      tx.recentBlockhash = blockhash;
+      transaction.feePayer = wallet.publicKey;
+      const { blockhash } = await connection.getLatestBlockhash();
+      transaction.recentBlockhash = blockhash;
 
-      const txSignature = await wallet.sendTransaction(tx, connection);
+      const txSignature = await wallet.sendTransaction(transaction, connection);
 
+      const { lastValidBlockHeight } = await connection.getLatestBlockhash();
       await connection.confirmTransaction({
         signature: txSignature,
         blockhash,
         lastValidBlockHeight,
       });
 
-      setSuccess("Transfer successful!");
+      setSuccess("Tokens minted successfully!");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Transfer failed");
+      setError(err instanceof Error ? err.message : "Failed to mint tokens");
     } finally {
       setLoading(false);
     }
@@ -62,11 +63,11 @@ export default function TransferTokenPage() {
 
   return (
     <div className="page-container">
-      <h1>Transfer Tokens</h1>
-      {loading && <p>Processing transfer...</p>}
+      <h1>Mint Existing Token</h1>
+      {loading && <p>Minting tokens...</p>}
       {error && <p className="error">{error}</p>}
       {success && <p className="success">{success}</p>}
-      <TransferTokenForm onSubmit={handleTransfer} disabled={loading} />
+      <MintTokenFormSPL onMint={handleMintToken} />
     </div>
   );
 }

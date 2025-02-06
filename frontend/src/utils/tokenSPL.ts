@@ -22,7 +22,7 @@ import {
   SystemProgram,
   Transaction,
 } from "@solana/web3.js";
-import { AuthorityType, setAuthority } from "@solana/spl-token";
+import { AuthorityType } from "@solana/spl-token";
 export async function createToken(
   connection: Connection,
   authority: PublicKey,

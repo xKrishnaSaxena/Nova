@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 
-import { createToken } from "../utils/token";
-import CreateTokenFormSPL from "../components/token/CreateTokenFormSPL";
+import { createToken } from "../../utils/tokenSPL";
+import CreateTokenFormSPL from "../../components/tokenSPL/CreateTokenFormSPL";
 
 export default function CreateTokenPage() {
   const { connection } = useConnection();
