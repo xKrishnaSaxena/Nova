@@ -1,12 +1,7 @@
 import { FC, useState } from "react";
 
 interface CreateTokenFormProps {
-  onCreate: (
-    name: string,
-    symbol: string,
-    image: string,
-    supply: string
-  ) => Promise<void>;
+  onCreate: (name: string, symbol: string, image: string) => Promise<void>;
   mintAddress?: string;
 }
 
@@ -17,11 +12,10 @@ const CreateTokenFormSPL: FC<CreateTokenFormProps> = ({
   const [name, setName] = useState("");
   const [symbol, setSymbol] = useState("");
   const [image, setImage] = useState("");
-  const [supply, setSupply] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await onCreate(name, symbol, image, supply);
+    await onCreate(name, symbol, image);
   };
 
   return (
@@ -43,12 +37,6 @@ const CreateTokenFormSPL: FC<CreateTokenFormProps> = ({
         placeholder="Image URL"
         value={image}
         onChange={(e) => setImage(e.target.value)}
-      />
-      <input
-        type="number"
-        placeholder="Initial Supply"
-        value={supply}
-        onChange={(e) => setSupply(e.target.value)}
       />
       <button type="submit">Create Token</button>
       {mintAddress && (

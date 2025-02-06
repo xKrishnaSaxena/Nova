@@ -14,8 +14,7 @@ export default function CreateTokenPage() {
   const handleCreateToken = async (
     name: string,
     symbol: string,
-    image: string,
-    supply: string
+    image: string
   ) => {
     if (!wallet.publicKey || !wallet.sendTransaction) {
       setError("Wallet not connected");
@@ -26,16 +25,12 @@ export default function CreateTokenPage() {
       setLoading(true);
       setError("");
 
-      const supplyNumber = parseFloat(supply);
-      if (isNaN(supplyNumber)) throw new Error("Invalid supply amount");
-
       const { mintKeypair, transaction } = await createToken(
         connection,
         wallet.publicKey,
         name,
         symbol,
-        image,
-        supplyNumber
+        image
       );
 
       transaction.feePayer = wallet.publicKey;

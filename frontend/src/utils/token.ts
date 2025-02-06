@@ -1,4 +1,6 @@
 import {
+  createBurnInstruction,
+  createTransferInstruction,
   createAssociatedTokenAccountInstruction,
   createInitializeMetadataPointerInstruction,
   createInitializeMintInstruction,
@@ -9,6 +11,7 @@ import {
   LENGTH_SIZE,
   TOKEN_2022_PROGRAM_ID,
   TYPE_SIZE,
+  createSetAuthorityInstruction,
 } from "@solana/spl-token";
 import { createInitializeInstruction, pack } from "@solana/spl-token-metadata";
 import {
@@ -19,14 +22,13 @@ import {
   SystemProgram,
   Transaction,
 } from "@solana/web3.js";
-
+import { AuthorityType, setAuthority } from "@solana/spl-token";
 export async function createToken(
   connection: Connection,
   authority: PublicKey,
   name: string,
   symbol: string,
-  uri: string,
-  supply: number
+  uri: string
 ) {
   const mintKeypair = Keypair.generate();
 
@@ -122,4 +124,96 @@ export async function mintToAddress(
   );
 
   return tx;
+}
+
+export async function transferTokens(
+  connection: Connection,
+  mint: PublicKey,
+  from: PublicKey,
+  fromAuthority: PublicKey,
+  to: PublicKey,
+  amount: number
+) {
+  const fromATA = getAssociatedTokenAddressSync(
+    mint,
+    from,
+    false,
+    TOKEN_2022_PROGRAM_ID
+  );
+  const toATA = getAssociatedTokenAddressSync(
+    mint,
+    to,
+    false,
+    TOKEN_2022_PROGRAM_ID
+  );
+
+  const tx = new Transaction();
+
+  const ataInfo = await connection.getAccountInfo(toATA);
+  if (!ataInfo) {
+    tx.add(
+      createAssociatedTokenAccountInstruction(
+        fromAuthority,
+        toATA,
+        to,
+        mint,
+        TOKEN_2022_PROGRAM_ID
+      )
+    );
+  }
+
+  const transferAmount = amount * LAMPORTS_PER_SOL;
+  tx.add(
+    createTransferInstruction(
+      fromATA,
+      toATA,
+      fromAuthority,
+      transferAmount,
+      [],
+      TOKEN_2022_PROGRAM_ID
+    )
+  );
+
+  return tx;
+}
+
+export async function burnTokens(
+  connection: Connection,
+  mint: PublicKey,
+  account: PublicKey,
+  authority: PublicKey,
+  amount: number
+) {
+  const tx = new Transaction();
+  const burnAmount = amount * LAMPORTS_PER_SOL;
+
+  tx.add(
+    createBurnInstruction(
+      account,
+      mint,
+      authority,
+      burnAmount,
+      [],
+      TOKEN_2022_PROGRAM_ID
+    )
+  );
+
+  return tx;
+}
+
+export function createAuthorityTransaction(
+  mintAddress: PublicKey,
+  currentAuthority: PublicKey,
+  newAuthority: PublicKey | null,
+  authorityType: AuthorityType
+): Transaction {
+  const instruction = createSetAuthorityInstruction(
+    mintAddress,
+    currentAuthority,
+    authorityType,
+    newAuthority,
+    [],
+    TOKEN_2022_PROGRAM_ID
+  );
+  return new Transaction().add(instruction);
 }

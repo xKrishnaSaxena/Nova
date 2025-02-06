@@ -8,7 +8,16 @@
 - [x] Login
 - [x] Signup
 - [x] Deposit
+  - [x] QR
 - [x] Withdraw
+- [] Token (SPL)
+  - [x] Create
+  - [x] Mint
+  - [x] Transfer
+  - [x] Burn
+  - [ ] Swap
+  - [x] Revoke Freeze and Mint Authorities
+  - [x] Set/Transfer Freeze and Mint Authorities
 
 ## Backend
 
@@ -21,15 +30,10 @@
   - [x] Protect
 - [x] Deposit
   - [x] Generate Deposit Address
-  - [x] QR
+- [x] Withdraw
 - [x] User
   - [x] Get user info
 - [ ] Token (ERC20)
   - [ ] Mint
-  - [ ] Transfer
-  - [ ] Burn
-- [] Token (SPL)
-  - [x] Create
-  - [x] Mint
   - [ ] Transfer
   - [ ] Burn
