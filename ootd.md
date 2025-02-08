@@ -10,14 +10,27 @@
 - [x] Deposit
   - [x] QR
 - [x] Withdraw
-- [ ] Token (SPL)
+- [x] Token (ERC20 - DAPP)
+  - [x] Mint
+  - [x] Transfer
+  - [x] Burn
+- [ ] Token (SPL - DAPP)
   - [x] Create
   - [x] Mint
   - [x] Transfer
   - [x] Burn
-  - [ ] Swap
+  - [x] Swap
   - [x] Revoke Freeze and Mint Authorities
-  - [x] Set/Transfer Freeze and Mint Authorities
+  - [x] Manage Authority
+  - [ ] Create Liquidity Pools
+  - [ ] Add Liquidity
+- [ ] NFT (SPL - DAPP)
+- [ ] UI
+  - [x] Navbar
+  - [x] Sidebar
+  - [ ] Background Spline
+- [ ] Pages UI
+- [ ] Light/Dark Mode
 
 ## Backend
 
@@ -33,7 +46,3 @@
 - [x] Withdraw
 - [x] User
   - [x] Get user info
-- [ ] Token (ERC20)
-  - [ ] Mint
-  - [ ] Transfer
-  - [ ] Burn

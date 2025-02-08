@@ -26,8 +26,6 @@ contract TestContract is Test {
     
     token.transfer(address(0xdAC17F958D2ee523a2206206994597C13D831ec7), 20);
     assertEq(token.balanceOf(address(this)), 70);
-    
-
     assertEq(token.totalSupply(), 90);
     assertEq(token.name(), name);
     assertEq(token.symbol(), symbol);

@@ -15,6 +15,7 @@ import CreateTokenPageERC from "./pages/tokenERC/CreateTokenERC";
 import MintTokenPageERC from "./pages/tokenERC/MintTokenERC";
 import BurnPage from "./pages/tokenERC/BurnTokenERC";
 import TransferPage from "./pages/tokenERC/TransferTokenERC";
+import SwapSPL from "./pages/tokenSPL/SwapSPL";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
         <Route path="/spl-transfer" element=<TransferTokenPage /> />
         <Route path="/spl-burn" element=<BurnTokenPage /> />
         <Route path="/spl-manage" element=<ManageAuthorityPage /> />
+        <Route path="/spl-swap" element=<SwapSPL /> />
         <Route path="/erc-create" element=<CreateTokenPageERC /> />
         <Route path="/erc-mint" element=<MintTokenPageERC /> />
         <Route path="/erc-burn" element=<BurnPage /> />
