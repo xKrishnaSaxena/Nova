@@ -28,9 +28,10 @@
 - [ ] UI
   - [x] Navbar
   - [x] Sidebar
-  - [ ] Background Spline
+  - [x] Background Motion
+  - [ ] Form
 - [ ] Pages UI
-- [ ] Light/Dark Mode
+  - [x] Home
 
 ## Backend
 

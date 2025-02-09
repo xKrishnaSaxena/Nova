@@ -58,7 +58,7 @@ const RootComponent = () => {
                 />
                 <Sidebar isOpen={isSidebarOpen} activeSection={activeSection} />
 
-                <App />
+                <App activeSection={activeSection} />
               </QueryClientProvider>
             </WagmiProvider>
           ) : (
@@ -76,7 +76,7 @@ const RootComponent = () => {
                     activeSection={activeSection}
                   />
 
-                  <App />
+                  <App activeSection={activeSection} />
                 </WalletModalProvider>
               </WalletProvider>
             </ConnectionProvider>

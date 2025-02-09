@@ -17,11 +17,11 @@ import BurnPage from "./pages/tokenERC/BurnTokenERC";
 import TransferPage from "./pages/tokenERC/TransferTokenERC";
 import SwapSPL from "./pages/tokenSPL/SwapSPL";
 
-function App() {
+function App({ activeSection }: { activeSection: "solana" | "ethereum" }) {
   return (
     <BrowserRouter>
       <Routes>
-        <Route index element=<Home /> />
+        <Route index element=<Home activeSection={activeSection} /> />
         <Route path="/login" element=<Login /> />
         <Route path="/signup" element=<Signup /> />
         <Route path="/deposit" element=<Deposit /> />

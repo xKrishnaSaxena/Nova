@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import React from "react";
 import {
   FiPlus,
@@ -40,15 +41,19 @@ const Sidebar = ({ isOpen, activeSection }: SidebarProps) => {
   );
 
   return (
-    <div
-      className={`
-        fixed left-0 top-16 h-full bg-white w-64 border-r
-        transform transition-transform duration-300 ease-in-out z-30
-        ${isOpen ? "translate-x-0" : "-translate-x-full"}
-      `}
+    <motion.div
+      className={`fixed left-0 top-16 h-full w-64 z-40 ${
+        isOpen ? "translate-x-0" : "-translate-x-full"
+      }`}
+      animate={isOpen ? "open" : "closed"}
+      variants={{
+        open: { x: 0 },
+        closed: { x: "-100%" },
+      }}
+      transition={{ type: "spring", stiffness: 300, damping: 30 }}
     >
-      <div className="p-4">
-        <div className="space-y-1 mt-4">
+      <div className="h-full bg-[#0a0a0a]/90 backdrop-blur-xl border-r border-white/5 p-6">
+        <div className="space-y-2">
           {activeSection === "solana" ? (
             <>
               {sidebarItem("/spl-create", "Create Token", <FiPlus />)}
@@ -72,7 +77,7 @@ const Sidebar = ({ isOpen, activeSection }: SidebarProps) => {
           )}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
