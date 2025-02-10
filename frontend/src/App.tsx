@@ -19,25 +19,23 @@ import SwapSPL from "./pages/tokenSPL/SwapSPL";
 
 function App({ activeSection }: { activeSection: "solana" | "ethereum" }) {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route index element=<Home activeSection={activeSection} /> />
-        <Route path="/login" element=<Login /> />
-        <Route path="/signup" element=<Signup /> />
-        <Route path="/deposit" element=<Deposit /> />
-        <Route path="/withdraw" element=<Withdraw /> />
-        <Route path="/spl-create" element=<CreateTokenPage /> />
-        <Route path="/spl-mint" element=<MintTokenPage /> />
-        <Route path="/spl-transfer" element=<TransferTokenPage /> />
-        <Route path="/spl-burn" element=<BurnTokenPage /> />
-        <Route path="/spl-manage" element=<ManageAuthorityPage /> />
-        <Route path="/spl-swap" element=<SwapSPL /> />
-        <Route path="/erc-create" element=<CreateTokenPageERC /> />
-        <Route path="/erc-mint" element=<MintTokenPageERC /> />
-        <Route path="/erc-burn" element=<BurnPage /> />
-        <Route path="/erc-transfer" element=<TransferPage /> />
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route index element=<Home activeSection={activeSection} /> />
+      <Route path="/login" element=<Login activeSection={activeSection} /> />
+      <Route path="/signup" element=<Signup activeSection={activeSection} /> />
+      <Route path="/deposit" element=<Deposit /> />
+      <Route path="/withdraw" element=<Withdraw /> />
+      <Route path="/spl-create" element=<CreateTokenPage /> />
+      <Route path="/spl-mint" element=<MintTokenPage /> />
+      <Route path="/spl-transfer" element=<TransferTokenPage /> />
+      <Route path="/spl-burn" element=<BurnTokenPage /> />
+      <Route path="/spl-manage" element=<ManageAuthorityPage /> />
+      <Route path="/spl-swap" element=<SwapSPL /> />
+      <Route path="/erc-create" element=<CreateTokenPageERC /> />
+      <Route path="/erc-mint" element=<MintTokenPageERC /> />
+      <Route path="/erc-burn" element=<BurnPage /> />
+      <Route path="/erc-transfer" element=<TransferPage /> />
+    </Routes>
   );
 }
 

@@ -1,19 +1,34 @@
 import { useContext, useState } from "react";
-
 import { AuthContext } from "../contexts/authContext";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import {
+  FiLock,
+  FiMail,
+  FiUser,
+  FiUserPlus,
+  FiGithub,
+  FiTwitter,
+  FiArrowLeft,
+} from "react-icons/fi";
+import { AiFillGoogleCircle } from "react-icons/ai";
 
-const Signup = () => {
+const Signup = ({
+  activeSection,
+}: {
+  activeSection: "solana" | "ethereum";
+}) => {
   const authContext = useContext(AuthContext);
-  if (!authContext) {
-    throw new Error("AuthContext must be used within an AuthProvider");
-  }
-  const { signup } = authContext;
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
+
+  if (!authContext) {
+    throw new Error("AuthContext must be used within an AuthProvider");
+  }
+  const { signup } = authContext;
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,68 +43,182 @@ const Signup = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100">
-      <form
-        onSubmit={handleSignup}
-        className="bg-white p-6 rounded shadow-lg w-96"
+    <div className="min-h-screen bg-gradient-to-br from-[#0a0a0a] to-[#141414] flex items-center justify-center p-4">
+      {/* Animated Background Elements */}
+      <motion.div
+        className="absolute top-12 right-64 size-48 lg:size-60 xl:size-72 z-0 opacity-30"
+        animate={{ rotate: [0, 15, -15, 0], y: [-30, 30] }}
+        transition={{
+          rotate: { duration: 8, repeat: Infinity },
+          y: { duration: 4, repeat: Infinity, repeatType: "mirror" },
+        }}
       >
-        <h2 className="text-2xl mb-4 text-center">Signup</h2>
-        {error && <p className="text-red-500 text-center mb-2">{error}</p>}
-        <div className="mb-4">
-          <label
-            className="block text-sm font-medium text-gray-700"
-            htmlFor="username"
+        <motion.img
+          src={activeSection === "solana" ? "Sol.png" : "Eth.png"}
+          className="w-full h-full mt-12 text-purple-500/20"
+        />
+      </motion.div>
+
+      <motion.div
+        className="absolute bottom-16 left-64 size-48 lg:size-60 xl:size-72 z-0 opacity-30"
+        animate={{ rotate: [0, -15, 15, 0], y: [30, -30] }}
+        transition={{
+          rotate: { duration: 8, repeat: Infinity },
+          y: { duration: 4, repeat: Infinity, repeatType: "mirror" },
+        }}
+      >
+        <motion.img
+          src={activeSection === "solana" ? "Sol.png" : "Eth.png"}
+          className="w-full h-full text-purple-500/20"
+        />
+      </motion.div>
+
+      {/* Signup Form */}
+      <motion.form
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+        onSubmit={handleSignup}
+        className="text-white w-full max-w-md bg-[#1a1a1a]/50 backdrop-blur-xl border border-white/10 rounded-2xl p-8 shadow-2xl"
+      >
+        <div className="text-center mb-8">
+          <motion.h2
+            initial={{ scale: 0.9 }}
+            animate={{ scale: 1 }}
+            className="text-4xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent mb-2"
           >
-            Username
-          </label>
-          <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md"
-            required
-          />
+            Join Nova
+          </motion.h2>
+          <p className="text-gray-400">Create your free account</p>
         </div>
-        <div className="mb-4">
-          <label
-            className="block text-sm font-medium text-gray-700"
-            htmlFor="email"
+
+        {error && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="mb-6 p-3 bg-red-500/20 border border-red-500/30 rounded-lg text-red-300 text-sm"
           >
-            Email
-          </label>
-          <input
-            type="email"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md"
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <label
-            className="block text-sm font-medium text-gray-700"
-            htmlFor="password"
+            {error}
+          </motion.div>
+        )}
+
+        <div className="space-y-6">
+          <div>
+            <label className="text-sm text-gray-300 mb-2 flex items-center gap-2">
+              <FiUser className="text-lg" />
+              Username
+            </label>
+            <div className="relative">
+              <input
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/20 outline-none transition-all placeholder:text-gray-600"
+                placeholder="Enter your username"
+                required
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="text-sm text-gray-300 mb-2 flex items-center gap-2">
+              <FiMail className="text-lg" />
+              Email Address
+            </label>
+            <div className="relative">
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/20 outline-none transition-all placeholder:text-gray-600"
+                placeholder="Enter your email"
+                required
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="text-sm text-gray-300 mb-2 flex items-center gap-2">
+              <FiLock className="text-lg" />
+              Password
+            </label>
+            <div className="relative">
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/20 outline-none transition-all placeholder:text-gray-600"
+                placeholder="Create your password"
+                required
+              />
+            </div>
+          </div>
+
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            type="submit"
+            className="w-full py-3.5 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg font-semibold text-lg flex items-center justify-center gap-2 hover:shadow-xl transition-all"
           >
-            Password
-          </label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md"
-            required
-          />
+            <FiUserPlus className="text-xl" />
+            Create Account
+          </motion.button>
         </div>
-        <button
-          type="submit"
-          className="w-full py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+
+        <div className="mt-6 text-center">
+          <p className="text-gray-400">
+            Already have an account?{" "}
+            <button
+              type="button"
+              onClick={() => navigate("/login")}
+              className="text-purple-400 hover:text-purple-300 transition-colors"
+            >
+              Login Now
+            </button>
+          </p>
+        </div>
+
+        <div className="relative my-8">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full border-t border-white/10"></div>
+          </div>
+          <div className="relative flex justify-center text-sm">
+            <span className="px-2 bg-[#1a1a1a] text-gray-500">
+              Or continue with
+            </span>
+          </div>
+        </div>
+
+        <div className="flex gap-4 justify-center">
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            className="p-3 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 transition-all"
+          >
+            <AiFillGoogleCircle className="text-xl" />
+          </motion.button>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            className="p-3 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 transition-all"
+          >
+            <FiGithub className="text-xl" />
+          </motion.button>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            className="p-3 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 transition-all"
+          >
+            <FiTwitter className="text-xl" />
+          </motion.button>
+        </div>
+
+        <motion.button
+          whileHover={{ x: -5 }}
+          onClick={() => navigate("/")}
+          className="mt-6 flex items-center gap-2 text-gray-400 hover:text-gray-200 transition-colors"
         >
-          Signup
-        </button>
-      </form>
+          <FiArrowLeft />
+          Back to Home
+        </motion.button>
+      </motion.form>
     </div>
   );
 };

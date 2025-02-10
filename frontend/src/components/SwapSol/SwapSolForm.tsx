@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { Connection, VersionedTransaction } from "@solana/web3.js";
 import { useWallet } from "@solana/wallet-adapter-react";
 import axios from "axios";
+import { motion } from "framer-motion";
+import { GiJupiter } from "react-icons/gi";
+import { FiArrowRight, FiDollarSign, FiRefreshCw } from "react-icons/fi";
 
 const connection = new Connection(
   "https://solana-mainnet.g.alchemy.com/v2/jmL5bKAaO34Bk3hBmzhzNY3OACd_wu5N"
@@ -66,49 +69,108 @@ const SwapForm: React.FC = () => {
   };
 
   return (
-    <div className="p-4 bg-gray-800 text-white rounded-lg w-96">
-      <h2 className="text-lg font-bold">Token Swap</h2>
-      <input
-        type="text"
-        placeholder="Input Token Address"
-        value={inputToken}
-        onChange={(e) => setInputToken(e.target.value)}
-        className="w-full p-2 my-2 text-white"
-      />
-      <input
-        type="text"
-        placeholder="Output Token Address"
-        value={outputToken}
-        onChange={(e) => setOutputToken(e.target.value)}
-        className="w-full p-2 my-2 text-white"
-      />
-      <input
-        type="number"
-        placeholder="Amount"
-        value={amount}
-        onChange={(e) => setAmount(e.target.value)}
-        className="w-full p-2 my-2 text-white"
-      />
-      <button
-        onClick={fetchQuote}
-        disabled={loading}
-        className="w-full bg-blue-500 p-2 rounded-lg my-2"
-      >
-        {loading ? "Fetching Quote..." : "Get Quote"}
-      </button>
-      {quote && (
-        <div className="p-2 bg-gray-700 rounded-lg my-2">
-          <p>Estimated Output: {quote.outAmount} Tokens</p>
-          <button
-            onClick={handleSwap}
-            disabled={loading}
-            className="w-full bg-green-500 p-2 rounded-lg mt-2"
-          >
-            {loading ? "Swapping..." : "Confirm Swap"}
-          </button>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="w-full max-w-md bg-[#1a1a1a]/50 backdrop-blur-xl border border-white/10 rounded-2xl p-8 shadow-2xl"
+    >
+      <div className="text-center mb-8">
+        <motion.h2
+          initial={{ scale: 0.9 }}
+          animate={{ scale: 1 }}
+          className="text-3xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent mb-2 flex items-center justify-center gap-2"
+        >
+          <GiJupiter className="text-2xl" />
+          Token Swap
+        </motion.h2>
+        <p className="text-gray-400">Instant cross-token exchange</p>
+      </div>
+
+      <div className="space-y-6">
+        <div>
+          <label className="text-sm text-gray-300 mb-2 flex items-center gap-2">
+            <FiDollarSign className="text-lg" />
+            Input Token
+          </label>
+          <input
+            type="text"
+            placeholder="Token mint address (e.g. So111...)"
+            value={inputToken}
+            onChange={(e) => setInputToken(e.target.value)}
+            className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/20 outline-none transition-all placeholder:text-gray-600"
+          />
         </div>
-      )}
-    </div>
+
+        <div className="flex justify-center">
+          <FiArrowRight className="text-2xl text-purple-500 rotate-90" />
+        </div>
+
+        <div>
+          <label className="text-sm text-gray-300 mb-2 flex items-center gap-2">
+            <FiDollarSign className="text-lg" />
+            Output Token
+          </label>
+          <input
+            type="text"
+            placeholder="Token mint address (e.g. EPjFW...)"
+            value={outputToken}
+            onChange={(e) => setOutputToken(e.target.value)}
+            className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/20 outline-none transition-all placeholder:text-gray-600"
+          />
+        </div>
+
+        <div>
+          <label className="text-sm text-gray-300 mb-2 flex items-center gap-2">
+            <FiArrowRight className="text-lg" />
+            Amount
+          </label>
+          <input
+            type="number"
+            placeholder="Enter amount to swap"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+            className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/20 outline-none transition-all placeholder:text-gray-600"
+          />
+        </div>
+
+        <motion.button
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          onClick={fetchQuote}
+          disabled={loading}
+          className="w-full py-3.5 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg font-semibold text-lg flex items-center justify-center gap-2 hover:shadow-xl transition-all disabled:opacity-50"
+        >
+          <FiRefreshCw className={`text-xl ${loading && "animate-spin"}`} />
+          {loading ? "Fetching Quote..." : "Get Quote"}
+        </motion.button>
+
+        {quote && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="p-4 bg-white/5 border border-white/10 rounded-lg"
+          >
+            <div className="flex justify-between items-center mb-4">
+              <span className="text-gray-400">Estimated Output:</span>
+              <span className="font-semibold text-purple-400">
+                {quote.outAmount}
+              </span>
+            </div>
+
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={handleSwap}
+              disabled={loading}
+              className="w-full py-3 bg-gradient-to-r from-green-600 to-cyan-600 rounded-lg font-semibold flex items-center justify-center gap-2 hover:shadow-xl transition-all disabled:opacity-50"
+            >
+              <FiArrowRight className="text-xl" />
+              {loading ? "Processing Swap..." : "Confirm Swap"}
+            </motion.button>
+          </motion.div>
+        )}
+      </div>
+    </motion.div>
   );
 };
 

@@ -18,9 +18,9 @@ import {
 import Logo from "./Logo";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { motion } from "framer-motion";
-import { FaWallet } from "react-icons/fa";
+
 import { SiEthereum } from "react-icons/si";
-import { div } from "framer-motion/client";
+import { useNavigate } from "react-router-dom";
 
 interface NavBarProps {
   activeSection: "solana" | "ethereum";
@@ -36,6 +36,7 @@ export default function NavBarComponent({
   setIsSidebarOpen,
 }: NavBarProps) {
   const { user } = useUser();
+  const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const isEthereum = activeSection === "ethereum";
   const ethAccount = isEthereum ? useAccount() : null;
@@ -77,12 +78,13 @@ export default function NavBarComponent({
         </div>
       </div>
       <div className="absolute left-1/2 transform -translate-x-1/2">
-        <motion.div
+        <motion.button
+          onClick={() => navigate("/")}
           whileHover={{ rotate: [0, -10, 10, 0] }}
           transition={{ duration: 0.5 }}
         >
           <Logo />
-        </motion.div>
+        </motion.button>
       </div>
 
       <div className="flex items-center gap-4 ">
@@ -127,6 +129,7 @@ export default function NavBarComponent({
 
                 <div className="flex gap-2">
                   <motion.button
+                    onClick={() => navigate("/deposit")}
                     whileHover={{ scale: 1.05 }}
                     className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-purple-600/20 text-purple-400 rounded-lg text-sm"
                   >
@@ -134,6 +137,7 @@ export default function NavBarComponent({
                     Deposit
                   </motion.button>
                   <motion.button
+                    onClick={() => navigate("/withdraw")}
                     whileHover={{ scale: 1.05 }}
                     className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-blue-600/20 text-blue-400 rounded-lg text-sm"
                   >
@@ -169,7 +173,7 @@ export default function NavBarComponent({
                           connector: ethConnect.connectors[0],
                         })
                       }
-                      className="w-full flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-white/5"
+                      className="w-full text-white flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-white/5"
                     >
                       <FiUser className="text-blue-400" />
                       Connect Ethereum
@@ -190,6 +194,7 @@ export default function NavBarComponent({
               {!user && (
                 <div className="p-2 border-t border-white/10">
                   <motion.button
+                    onClick={() => navigate("/login")}
                     whileHover={{ scale: 1.02 }}
                     className="w-full flex text-white items-center gap-3 px-4 py-2.5 text-sm hover:bg-white/5"
                   >
@@ -197,6 +202,7 @@ export default function NavBarComponent({
                     Login
                   </motion.button>
                   <motion.button
+                    onClick={() => navigate("/signup")}
                     whileHover={{ scale: 1.02 }}
                     className="w-full flex text-white items-center gap-3 px-4 py-2.5 text-sm hover:bg-white/5"
                   >

@@ -9,6 +9,7 @@ import {
   FiLock,
   FiUsers,
 } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -16,16 +17,16 @@ interface SidebarProps {
 }
 
 const Sidebar = ({ isOpen, activeSection }: SidebarProps) => {
+  const navigate = useNavigate();
   const sidebarItem = (
     to: string,
     text: string,
     icon: React.ReactElement,
     disabled?: boolean
   ) => (
-    <a
-      href={disabled ? "#" : to}
+    <motion.button
       className={`
-        flex items-center w-full p-4 gap-3 text-sm 
+        flex items-center text-white w-full p-4 gap-3 text-sm 
         ${
           disabled
             ? "text-gray-400 cursor-not-allowed"
@@ -33,16 +34,19 @@ const Sidebar = ({ isOpen, activeSection }: SidebarProps) => {
         }
         transition-colors rounded-lg
       `}
-      onClick={(e) => disabled && e.preventDefault()}
+      onClick={(e) => {
+        disabled && e.preventDefault();
+        navigate(`${to}`);
+      }}
     >
       {React.cloneElement(icon, { className: "text-xl flex-shrink-0" })}
       <span>{text}</span>
-    </a>
+    </motion.button>
   );
 
   return (
     <motion.div
-      className={`fixed left-0 top-16 h-full w-64 z-40 ${
+      className={`fixed left-0 top-16 h-full w-76 z-40 ${
         isOpen ? "translate-x-0" : "-translate-x-full"
       }`}
       animate={isOpen ? "open" : "closed"}
@@ -56,21 +60,29 @@ const Sidebar = ({ isOpen, activeSection }: SidebarProps) => {
         <div className="space-y-2">
           {activeSection === "solana" ? (
             <>
-              {sidebarItem("/spl-create", "Create Token", <FiPlus />)}
-              {sidebarItem("/spl-mint", "Mint Token", <FiDollarSign />)}
-              {sidebarItem("/spl-transfer", "Transfer Token", <FiArrowRight />)}
-              {sidebarItem("/spl-burn", "Burn Token", <FiTrash2 />)}
-              {sidebarItem("/spl-swap", "Swap Tokens", <FiRefreshCw />)}
+              {sidebarItem("/spl-create", "Create SPL Token", <FiPlus />)}
+              {sidebarItem("/spl-mint", "Mint SPL Token", <FiDollarSign />)}
+              {sidebarItem(
+                "/spl-transfer",
+                "Transfer SPL Token",
+                <FiArrowRight />
+              )}
+              {sidebarItem("/spl-burn", "Burn SPL Token", <FiTrash2 />)}
               {sidebarItem("/spl-manage", "Manage Authorities", <FiLock />)}
               {sidebarItem("#", "Create Liquidity Pools", <FiUsers />, true)}
               {sidebarItem("#", "Add Liquidity", <FiUsers />, true)}
+              {sidebarItem("/spl-swap", "Swap SPL Tokens", <FiRefreshCw />)}
             </>
           ) : (
             <>
-              {sidebarItem("/erc-create", "Create Token", <FiPlus />)}
-              {sidebarItem("/erc-mint", "Mint Token", <FiDollarSign />)}
-              {sidebarItem("/erc-transfer", "Transfer Token", <FiArrowRight />)}
-              {sidebarItem("/erc-burn", "Burn Token", <FiTrash2 />)}
+              {sidebarItem("/erc-create", "Create ERC-20 Token", <FiPlus />)}
+              {sidebarItem("/erc-mint", "Mint ERC-20 Token", <FiDollarSign />)}
+              {sidebarItem(
+                "/erc-transfer",
+                "Transfer ERC-20 Token",
+                <FiArrowRight />
+              )}
+              {sidebarItem("/erc-burn", "Burn ERC-20 Token", <FiTrash2 />)}
               {sidebarItem("#", "Create Liquidity Pools", <FiUsers />, true)}
               {sidebarItem("#", "Add Liquidity", <FiUsers />, true)}
             </>

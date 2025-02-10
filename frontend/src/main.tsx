@@ -17,6 +17,7 @@ import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import "@solana/wallet-adapter-react-ui/styles.css";
 import NavBarComponent from "./components/ui/Navbar.tsx";
 import Sidebar from "./components/ui/Sidebar.tsx";
+import { BrowserRouter } from "react-router-dom";
 
 const wagmiConfig = createConfig({
   chains: [sepolia],
@@ -36,7 +37,7 @@ const RootComponent = () => {
     }
   );
 
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
     localStorage.setItem("selectedBlockchain", activeSection);
@@ -45,26 +46,12 @@ const RootComponent = () => {
   const isEthereum = activeSection === "ethereum";
   return (
     <StrictMode>
-      <AuthProvider>
-        <UserProvider>
-          {isEthereum ? (
-            <WagmiProvider config={wagmiConfig}>
-              <QueryClientProvider client={queryClient}>
-                <NavBarComponent
-                  activeSection={activeSection}
-                  setActiveSection={setActiveSection}
-                  isSidebarOpen={isSidebarOpen}
-                  setIsSidebarOpen={setIsSidebarOpen}
-                />
-                <Sidebar isOpen={isSidebarOpen} activeSection={activeSection} />
-
-                <App activeSection={activeSection} />
-              </QueryClientProvider>
-            </WagmiProvider>
-          ) : (
-            <ConnectionProvider endpoint={"https://api.devnet.solana.com"}>
-              <WalletProvider wallets={[]}>
-                <WalletModalProvider>
+      <BrowserRouter>
+        <AuthProvider>
+          <UserProvider>
+            {isEthereum ? (
+              <WagmiProvider config={wagmiConfig}>
+                <QueryClientProvider client={queryClient}>
                   <NavBarComponent
                     activeSection={activeSection}
                     setActiveSection={setActiveSection}
@@ -77,12 +64,31 @@ const RootComponent = () => {
                   />
 
                   <App activeSection={activeSection} />
-                </WalletModalProvider>
-              </WalletProvider>
-            </ConnectionProvider>
-          )}
-        </UserProvider>
-      </AuthProvider>
+                </QueryClientProvider>
+              </WagmiProvider>
+            ) : (
+              <ConnectionProvider endpoint={"https://api.devnet.solana.com"}>
+                <WalletProvider wallets={[]}>
+                  <WalletModalProvider>
+                    <NavBarComponent
+                      activeSection={activeSection}
+                      setActiveSection={setActiveSection}
+                      isSidebarOpen={isSidebarOpen}
+                      setIsSidebarOpen={setIsSidebarOpen}
+                    />
+                    <Sidebar
+                      isOpen={isSidebarOpen}
+                      activeSection={activeSection}
+                    />
+
+                    <App activeSection={activeSection} />
+                  </WalletModalProvider>
+                </WalletProvider>
+              </ConnectionProvider>
+            )}
+          </UserProvider>
+        </AuthProvider>
+      </BrowserRouter>
     </StrictMode>
   );
 };

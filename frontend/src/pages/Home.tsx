@@ -9,12 +9,14 @@ import {
 } from "react-icons/fi";
 
 import { TfiWallet } from "react-icons/tfi";
+import { useNavigate } from "react-router-dom";
 
 export default function Home({
   activeSection,
 }: {
   activeSection: "solana" | "ethereum";
 }) {
+  const navigate = useNavigate();
   const features = [
     {
       icon: TfiWallet,
@@ -107,6 +109,7 @@ export default function Home({
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              onClick={() => navigate("/login")}
               className="bg-gradient-to-r from-purple-600 to-blue-600 px-8 py-4 rounded-xl font-semibold text-lg flex items-center gap-2 shadow-lg hover:shadow-xl transition-shadow"
             >
               <TfiWallet className="text-xl" />
@@ -159,7 +162,7 @@ export default function Home({
             whileTap={{ scale: 0.95 }}
             className="bg-gradient-to-r from-purple-600 to-blue-600 px-8 py-4 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transition-shadow"
           >
-            Connect Wallet
+            Create Wallet
           </motion.button>
         </motion.div>
       </div>
