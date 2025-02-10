@@ -3,8 +3,15 @@ import axios from "axios";
 import { AuthContext } from "../contexts/authContext";
 import QRCode from "react-qr-code";
 import { useUser } from "../contexts/userContext";
+import { motion } from "framer-motion";
+import { FiCopy } from "react-icons/fi";
+import { FaWallet } from "react-icons/fa";
 
-const Deposit = () => {
+const Deposit = ({
+  activeSection,
+}: {
+  activeSection: "solana" | "ethereum";
+}) => {
   const BACKEND_URL = "http://localhost:3000";
   const { user } = useUser();
   const [depositAddress, setDepositAddress] = useState("");
@@ -40,22 +47,97 @@ const Deposit = () => {
   }, [user]);
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100">
-      {depositAddress ? (
-        <div>
-          <h2 className="text-2xl text-center">DepositAddress</h2>
-          {error && <p className="text-red-500 text-center mb-2">{error}</p>}
-          <h3 className="">{depositAddress}</h3>
-          <QRCode value={depositAddress} />
+    <div className="min-h-screen bg-gradient-to-br from-[#0a0a0a] to-[#141414] flex items-center justify-center p-4">
+      <motion.div
+        className="absolute top-12 right-64 size-48 lg:size-60 xl:size-72 z-0 opacity-30"
+        animate={{ rotate: [0, 15, -15, 0], y: [-30, 30] }}
+        transition={{
+          rotate: { duration: 8, repeat: Infinity },
+          y: { duration: 4, repeat: Infinity, repeatType: "mirror" },
+        }}
+      >
+        <motion.img
+          src={activeSection === "solana" ? "Sol.png" : "Eth.png"}
+          className="w-full h-full mt-12 text-purple-500/20"
+        />
+      </motion.div>
+
+      <motion.div
+        className="absolute bottom-16 left-64 size-48 lg:size-60 xl:size-72 z-0 opacity-30"
+        animate={{ rotate: [0, -15, 15, 0], y: [30, -30] }}
+        transition={{
+          rotate: { duration: 8, repeat: Infinity },
+          y: { duration: 4, repeat: Infinity, repeatType: "mirror" },
+        }}
+      >
+        <motion.img
+          src={activeSection === "solana" ? "Sol.png" : "Eth.png"}
+          className="w-full h-full text-purple-500/20"
+        />
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+        className="text-white w-full max-w-md bg-[#1a1a1a]/50 backdrop-blur-xl border border-white/10 rounded-2xl p-8 shadow-2xl"
+      >
+        <div className="text-center mb-8">
+          <motion.h2
+            initial={{ scale: 0.9 }}
+            animate={{ scale: 1 }}
+            className="text-4xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent mb-2"
+          >
+            Deposit Funds
+          </motion.h2>
+          <p className="text-gray-400">Receive assets to your Nova wallet</p>
         </div>
-      ) : (
-        <button
-          className="px-2 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
-          onClick={handleGenerateDepositAddress}
-        >
-          Generate Deposit Address
-        </button>
-      )}
+
+        {depositAddress ? (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="space-y-6"
+          >
+            <div>
+              <label className="text-sm text-gray-300 mb-2 flex items-center gap-2">
+                <FaWallet className="text-lg" />
+                Your Deposit Address
+              </label>
+              <div className="relative">
+                <div className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg flex items-center justify-between">
+                  <span className="truncate">{depositAddress}</span>
+                  <button className="text-purple-400 hover:text-purple-300 ml-2">
+                    <FiCopy className="text-xl" />
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex flex-col items-center gap-4">
+              <div className="p-4 bg-white rounded-lg">
+                <QRCode
+                  value={depositAddress}
+                  size={192}
+                  className="w-48 h-48"
+                />
+              </div>
+              <p className="text-gray-400 text-sm text-center">
+                Scan QR code or copy address to receive funds
+              </p>
+            </div>
+          </motion.div>
+        ) : (
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={handleGenerateDepositAddress}
+            className="w-full py-3.5 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg font-semibold text-lg flex items-center justify-center gap-2 hover:shadow-xl transition-all"
+          >
+            Generate Deposit Address
+          </motion.button>
+        )}
+      </motion.div>
     </div>
   );
 };

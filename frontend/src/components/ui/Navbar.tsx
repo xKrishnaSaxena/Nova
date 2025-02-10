@@ -64,7 +64,10 @@ export default function NavBarComponent({
             <motion.button
               key={chain}
               whileHover={{ scale: 1.05 }}
-              onClick={() => handleChainSwitch(chain)}
+              onClick={() => {
+                handleChainSwitch(chain);
+                setIsSidebarOpen(true);
+              }}
               className={`flex items-center gap-2 px-4 py-2 rounded-lg ${
                 activeSection === chain
                   ? "bg-gradient-to-r from-purple-600 to-blue-600 text-white"

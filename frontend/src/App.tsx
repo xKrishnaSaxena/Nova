@@ -16,6 +16,7 @@ import MintTokenPageERC from "./pages/tokenERC/MintTokenERC";
 import BurnPage from "./pages/tokenERC/BurnTokenERC";
 import TransferPage from "./pages/tokenERC/TransferTokenERC";
 import SwapSPL from "./pages/tokenSPL/SwapSPL";
+import { act } from "react";
 
 function App({ activeSection }: { activeSection: "solana" | "ethereum" }) {
   return (
@@ -23,8 +24,14 @@ function App({ activeSection }: { activeSection: "solana" | "ethereum" }) {
       <Route index element=<Home activeSection={activeSection} /> />
       <Route path="/login" element=<Login activeSection={activeSection} /> />
       <Route path="/signup" element=<Signup activeSection={activeSection} /> />
-      <Route path="/deposit" element=<Deposit /> />
-      <Route path="/withdraw" element=<Withdraw /> />
+      <Route
+        path="/deposit"
+        element=<Deposit activeSection={activeSection} />
+      />
+      <Route
+        path="/withdraw"
+        element=<Withdraw activeSection={activeSection} />
+      />
       <Route path="/spl-create" element=<CreateTokenPage /> />
       <Route path="/spl-mint" element=<MintTokenPage /> />
       <Route path="/spl-transfer" element=<TransferTokenPage /> />

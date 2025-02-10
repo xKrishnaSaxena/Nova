@@ -1,68 +1,110 @@
-import { useState } from "react";
-import { createERC20Token } from "../../utils/tokenERCdapp";
+import { FC, useState } from "react";
+import { motion } from "framer-motion";
+import { FiPenTool, FiHash, FiPlus, FiLoader } from "react-icons/fi";
 
-const ERC20TokenForm = () => {
+interface ERC20TokenFormProps {
+  onCreate: (name: string, symbol: string) => Promise<void>;
+  tokenAddress?: string;
+}
+
+const ERC20TokenForm: FC<ERC20TokenFormProps> = ({
+  onCreate,
+  tokenAddress,
+}) => {
   const [name, setName] = useState("");
   const [symbol, setSymbol] = useState("");
-  const [tokenAddress, setTokenAddress] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !symbol) {
-      alert("Please fill in all fields.");
-      return;
-    }
+    setLoading(true);
     try {
-      const address = await createERC20Token(name, symbol);
-      setTokenAddress(address);
-      alert(`Token created successfully! Address: ${address}`);
-    } catch (error) {
-      console.error("Error creating token:", error);
-      alert("Failed to create token.");
+      await onCreate(name, symbol);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to create token");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white shadow-lg rounded-xl">
-      <h2 className="text-2xl font-bold mb-4">Create ERC-20 Token</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="block font-semibold">Token Name:</label>
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="w-full p-2 border rounded"
-            required
-          />
-        </div>
+    <motion.form
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      onSubmit={handleSubmit}
+      className="space-y-6 w-full"
+    >
+      <div>
+        <label className="text-sm text-gray-300 mb-2 flex items-center gap-2">
+          <FiPenTool className="text-lg" />
+          Token Name
+        </label>
+        <input
+          type="text"
+          placeholder="My Awesome Token"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/20 outline-none transition-all placeholder:text-gray-600"
+          required
+        />
+      </div>
 
-        <div>
-          <label className="block font-semibold">Token Symbol:</label>
-          <input
-            type="text"
-            value={symbol}
-            onChange={(e) => setSymbol(e.target.value)}
-            className="w-full p-2 border rounded"
-            required
-          />
-        </div>
+      <div>
+        <label className="text-sm text-gray-300 mb-2 flex items-center gap-2">
+          <FiHash className="text-lg" />
+          Token Symbol
+        </label>
+        <input
+          type="text"
+          placeholder="MAT"
+          value={symbol}
+          onChange={(e) => setSymbol(e.target.value)}
+          className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/20 outline-none transition-all placeholder:text-gray-600"
+          required
+        />
+      </div>
 
-        <button
-          type="submit"
-          className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
+      {error && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="p-4 bg-red-500/20 border border-red-500/30 rounded-lg text-red-300 text-sm"
         >
-          Create Token
-        </button>
-      </form>
+          {error}
+        </motion.div>
+      )}
+
+      <motion.button
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+        type="submit"
+        className="w-full py-3.5 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg font-semibold text-lg flex items-center justify-center gap-2 hover:shadow-xl transition-all"
+        disabled={loading}
+      >
+        {loading ? (
+          <FiLoader className="animate-spin text-xl" />
+        ) : (
+          <>
+            <FiPlus className="text-xl" />
+            Create Token
+          </>
+        )}
+      </motion.button>
 
       {tokenAddress && (
-        <div className="mt-4 p-2 bg-gray-100 rounded text-center">
-          <p className="text-sm font-semibold">Token Address:</p>
-          <p className="text-xs break-all">{tokenAddress}</p>
-        </div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="mt-6 p-4 bg-green-500/20 border border-green-500/30 rounded-lg"
+        >
+          <p className="text-sm text-green-400">
+            Token Created Successfully! Address:{" "}
+            <span className="font-mono break-all">{tokenAddress}</span>
+          </p>
+        </motion.div>
       )}
-    </div>
+    </motion.form>
   );
 };
 

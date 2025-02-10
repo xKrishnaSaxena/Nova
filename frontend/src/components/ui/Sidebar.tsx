@@ -9,7 +9,7 @@ import {
   FiLock,
   FiUsers,
 } from "react-icons/fi";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -18,31 +18,37 @@ interface SidebarProps {
 
 const Sidebar = ({ isOpen, activeSection }: SidebarProps) => {
   const navigate = useNavigate();
+  const location = useLocation();
+
   const sidebarItem = (
     to: string,
     text: string,
     icon: React.ReactElement,
     disabled?: boolean
-  ) => (
-    <motion.button
-      className={`
-        flex items-center text-white w-full p-4 gap-3 text-sm 
-        ${
-          disabled
-            ? "text-gray-400 cursor-not-allowed"
-            : "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
-        }
-        transition-colors rounded-lg
-      `}
-      onClick={(e) => {
-        disabled && e.preventDefault();
-        navigate(`${to}`);
-      }}
-    >
-      {React.cloneElement(icon, { className: "text-xl flex-shrink-0" })}
-      <span>{text}</span>
-    </motion.button>
-  );
+  ) => {
+    const isActive = !disabled && location.pathname === to;
+
+    return (
+      <motion.button
+        disabled={disabled}
+        className={`
+          flex items-center w-full p-4 gap-3 text-sm 
+          ${
+            disabled
+              ? "text-gray-700 cursor-not-allowed"
+              : isActive
+              ? "bg-blue-50 text-blue-600"
+              : " text-gray-400 hover:bg-blue-50 hover:text-blue-600"
+          }
+          transition-colors rounded-lg
+        `}
+        onClick={() => navigate(to)}
+      >
+        {React.cloneElement(icon, { className: "text-xl flex-shrink-0" })}
+        <span>{text}</span>
+      </motion.button>
+    );
+  };
 
   return (
     <motion.div
@@ -69,8 +75,8 @@ const Sidebar = ({ isOpen, activeSection }: SidebarProps) => {
               )}
               {sidebarItem("/spl-burn", "Burn SPL Token", <FiTrash2 />)}
               {sidebarItem("/spl-manage", "Manage Authorities", <FiLock />)}
-              {sidebarItem("#", "Create Liquidity Pools", <FiUsers />, true)}
-              {sidebarItem("#", "Add Liquidity", <FiUsers />, true)}
+              {/* {sidebarItem("#", "Create Liquidity Pools", <FiUsers />, true)}
+              {sidebarItem("#", "Add Liquidity", <FiUsers />, true)} */}
               {sidebarItem("/spl-swap", "Swap SPL Tokens", <FiRefreshCw />)}
             </>
           ) : (
@@ -83,8 +89,8 @@ const Sidebar = ({ isOpen, activeSection }: SidebarProps) => {
                 <FiArrowRight />
               )}
               {sidebarItem("/erc-burn", "Burn ERC-20 Token", <FiTrash2 />)}
-              {sidebarItem("#", "Create Liquidity Pools", <FiUsers />, true)}
-              {sidebarItem("#", "Add Liquidity", <FiUsers />, true)}
+              {/* {sidebarItem("#", "Create Liquidity Pools", <FiUsers />, true)}
+              {sidebarItem("#", "Add Liquidity", <FiUsers />, true)} */}
             </>
           )}
         </div>

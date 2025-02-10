@@ -11,10 +11,11 @@
   - [x] QR
 - [x] Withdraw
 - [x] Token (ERC20 - DAPP)
+  - [x] Create
   - [x] Mint
   - [x] Transfer
   - [x] Burn
-- [ ] Token (SPL - DAPP)
+- [x] Token (SPL - DAPP)
   - [x] Create
   - [x] Mint
   - [x] Transfer
@@ -29,20 +30,25 @@
   - [x] Navbar
   - [x] Sidebar
   - [x] Background Motion
-  - [ ] Forms
+  - [x] Forms
 - [ ] Pages UI
   - [x] Home
-  - [ ] Login
-  - [ ] Signup
-  - [ ] SPL
+  - [x] Login
+  - [x] Signup
+  - [x] Deposit
+  - [x] Withdraw
+  - [x] SPL Theme
     - [x] Create Token
     - [x] Mint Token
     - [x] Transfer Token
     - [x] Burn Token
-    - [ ] Manage Authorities
-    - [ ] Create Liquidity Pools
-    - [ ] Add Liquidity
-    - [x] Swap
+    - [x] Manage Authorities
+    - [x] Swap Tokens
+  - [x] ERC-20 Theme
+    - [x] Create Token
+    - [x] Mint Token
+    - [x] Burn Token
+    - [x] Transfer Token
 
 ## Backend
 

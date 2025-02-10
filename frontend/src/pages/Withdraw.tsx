@@ -2,6 +2,9 @@ import React, { useState, useContext } from "react";
 import axios from "axios";
 import { AuthContext } from "../contexts/authContext";
 import { useUser } from "../contexts/userContext";
+import { motion } from "framer-motion";
+import { FiArrowUp, FiDollarSign } from "react-icons/fi";
+import { FaWallet } from "react-icons/fa";
 
 interface WithdrawResponse {
   txHash: string;
@@ -9,7 +12,12 @@ interface WithdrawResponse {
   toAddress: string;
   status: string;
 }
-const Withdraw = () => {
+
+const Withdraw = ({
+  activeSection,
+}: {
+  activeSection: "solana" | "ethereum";
+}) => {
   const BACKEND_URL = "http://localhost:3000";
   const [amount, setAmount] = useState("");
   const [toAddress, setToAddress] = useState("");
@@ -62,60 +70,140 @@ const Withdraw = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold mb-4">Withdraw Funds</h2>
-      {user && (
-        <div className="mb-4">
-          <p className="text-gray-600">
-            Current Balance: {user.balance?.toFixed(4)} ETH
-          </p>
-          <p className="text-gray-600">Your Address: {user.depositAddress}</p>
+    <div className="min-h-screen bg-gradient-to-br from-[#0a0a0a] to-[#141414] flex items-center justify-center p-4">
+      <motion.div
+        className="absolute top-12 right-64 size-48 lg:size-60 xl:size-72 z-0 opacity-30"
+        animate={{ rotate: [0, 15, -15, 0], y: [-30, 30] }}
+        transition={{
+          rotate: { duration: 8, repeat: Infinity },
+          y: { duration: 4, repeat: Infinity, repeatType: "mirror" },
+        }}
+      >
+        <motion.img
+          src={activeSection === "solana" ? "Sol.png" : "Eth.png"}
+          className="w-full h-full mt-12 text-purple-500/20"
+        />
+      </motion.div>
+
+      <motion.div
+        className="absolute bottom-16 left-64 size-48 lg:size-60 xl:size-72 z-0 opacity-30"
+        animate={{ rotate: [0, -15, 15, 0], y: [30, -30] }}
+        transition={{
+          rotate: { duration: 8, repeat: Infinity },
+          y: { duration: 4, repeat: Infinity, repeatType: "mirror" },
+        }}
+      >
+        <motion.img
+          src={activeSection === "solana" ? "Sol.png" : "Eth.png"}
+          className="w-full h-full text-purple-500/20"
+        />
+      </motion.div>
+
+      <motion.form
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+        onSubmit={handleWithdraw}
+        className="text-white w-full max-w-md bg-[#1a1a1a]/50 backdrop-blur-xl border border-white/10 rounded-2xl p-8 shadow-2xl"
+      >
+        <div className="text-center mb-8">
+          <motion.h2
+            initial={{ scale: 0.9 }}
+            animate={{ scale: 1 }}
+            className="text-4xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent mb-2"
+          >
+            Withdraw Funds
+          </motion.h2>
+          <p className="text-gray-400">Transfer assets from your Nova wallet</p>
         </div>
-      )}
 
-      <form onSubmit={handleWithdraw}>
-        <div className="mb-4">
-          <label className="block text-gray-700 mb-2" htmlFor="toAddress">
-            Recipient Address
-          </label>
-          <input
-            type="text"
-            id="toAddress"
-            className="w-full p-2 border rounded"
-            value={toAddress}
-            onChange={(e) => setToAddress(e.target.value)}
-            placeholder="0x..."
-            required
-          />
+        {user && (
+          <div className="mb-6 space-y-2">
+            <p className="text-gray-300 flex justify-between">
+              <span>Current Balance:</span>
+              <span className="text-purple-400">
+                {user.balance?.toFixed(4)} ETH
+              </span>
+            </p>
+            <p className="text-gray-300 flex justify-between">
+              <span>Your Address:</span>
+              <span className="text-blue-400 truncate max-w-[160px]">
+                {user.depositAddress}
+              </span>
+            </p>
+          </div>
+        )}
+
+        <div className="space-y-6">
+          <div>
+            <label className="text-sm text-gray-300 mb-2 flex items-center gap-2">
+              <FaWallet className="text-lg" />
+              Recipient Address
+            </label>
+            <div className="relative">
+              <input
+                type="text"
+                id="toAddress"
+                value={toAddress}
+                onChange={(e) => setToAddress(e.target.value)}
+                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/20 outline-none transition-all placeholder:text-gray-600"
+                placeholder="0x..."
+                required
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="text-sm text-gray-300 mb-2 flex items-center gap-2">
+              <FiDollarSign className="text-lg" />
+              Amount (ETH)
+            </label>
+            <div className="relative">
+              <input
+                type="number"
+                id="amount"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/20 outline-none transition-all placeholder:text-gray-600"
+                step="0.0001"
+                min="0.0001"
+                required
+              />
+            </div>
+          </div>
+
+          {error && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="p-3 bg-red-500/20 border border-red-500/30 rounded-lg text-red-300 text-sm"
+            >
+              {error}
+            </motion.div>
+          )}
+
+          {success && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="p-3 bg-green-500/20 border border-green-500/30 rounded-lg text-green-300 text-sm"
+            >
+              {success}
+            </motion.div>
+          )}
+
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            type="submit"
+            disabled={loading || !user?.depositAddress}
+            className="w-full py-3.5 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg font-semibold text-lg flex items-center justify-center gap-2 hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <FiArrowUp className="text-xl" />
+            {loading ? "Processing..." : "Withdraw"}
+          </motion.button>
         </div>
-
-        <div className="mb-4">
-          <label className="block text-gray-700 mb-2" htmlFor="amount">
-            Amount (ETH)
-          </label>
-          <input
-            type="number"
-            id="amount"
-            className="w-full p-2 border rounded"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-            step="0.0001"
-            min="0.0001"
-            required
-          />
-        </div>
-
-        {error && <div className="mb-4 text-red-500">{error}</div>}
-        {success && <div className="mb-4 text-green-500">{success}</div>}
-
-        <button
-          type="submit"
-          className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 disabled:bg-gray-400"
-          disabled={loading || !user?.depositAddress}
-        >
-          {loading ? "Processing..." : "Withdraw"}
-        </button>
-      </form>
+      </motion.form>
     </div>
   );
 };

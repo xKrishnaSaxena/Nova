@@ -95,9 +95,9 @@ export default function ManageAuthorityPage() {
         >
           <div className="text-center mb-8">
             <motion.h1
-              initial={{ scale: 0.9 }}
-              animate={{ scale: 1 }}
-              className="text-4xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent mb-2"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              className="text-4xl font-bold animate-background-shift bg-gradient-to-r from-indigo-400 via-blue-300 to-purple-400 bg-clip-text text-transparent mb-2"
             >
               Manage Authorities
             </motion.h1>

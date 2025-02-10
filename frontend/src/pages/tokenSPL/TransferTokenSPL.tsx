@@ -86,9 +86,9 @@ export default function TransferTokenPage() {
         >
           <div className="text-center mb-8">
             <motion.h1
-              initial={{ scale: 0.9 }}
-              animate={{ scale: 1 }}
-              className="text-4xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent mb-2"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              className="text-4xl font-bold animate-background-shift bg-gradient-to-r from-green-400 via-teal-300 to-emerald-400 bg-clip-text text-transparent mb-2"
             >
               Transfer Token
             </motion.h1>
