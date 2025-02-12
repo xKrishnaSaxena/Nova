@@ -15,6 +15,10 @@
   - [x] Mint
   - [x] Transfer
   - [x] Burn
+  - [ ] Swap
+  - [ ] Manage Authority
+  - [ ] Create Liquidity Pools
+  - [ ] Add Liquidity
 - [x] Token (SPL - DAPP)
   - [x] Create
   - [x] Mint
@@ -26,7 +30,7 @@
   - [ ] Create Liquidity Pools
   - [ ] Add Liquidity
 - [ ] NFT (SPL - DAPP)
-- [ ] UI
+- [x] UI
   - [x] Navbar
   - [x] Sidebar
   - [x] Background Motion
@@ -64,3 +68,16 @@
 - [x] Withdraw
 - [x] User
   - [x] Get user info
+
+## V2 Features
+
+- [ ] Token List -> Token DB
+- [ ] Sol Deposit
+- [ ] Sol Withdraw
+- [ ] Making contract calls using InBuilt Wallet
+
+## V3 Features
+
+- [ ] Staking
+- [ ] Bridge
+- [ ] Trade (Maybe)
