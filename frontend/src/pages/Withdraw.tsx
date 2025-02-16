@@ -5,6 +5,7 @@ import { useUser } from "../contexts/userContext";
 import { motion } from "framer-motion";
 import { FiArrowUp, FiDollarSign } from "react-icons/fi";
 import { FaWallet } from "react-icons/fa";
+import { PublicKey } from "@solana/web3.js";
 
 interface WithdrawResponse {
   txHash: string;
@@ -39,8 +40,16 @@ const Withdraw = ({
         throw new Error("Invalid amount");
       }
 
-      if (!toAddress.match(/^0x[a-fA-F0-9]{40}$/)) {
-        throw new Error("Invalid Ethereum address");
+      if (activeSection === "ethereum") {
+        if (!toAddress.match(/^0x[a-fA-F0-9]{40}$/)) {
+          throw new Error("Invalid Ethereum address");
+        }
+      } else {
+        try {
+          new PublicKey(toAddress);
+        } catch {
+          throw new Error("Invalid Solana address");
+        }
       }
 
       const response = await axios.post<WithdrawResponse>(
@@ -48,6 +57,7 @@ const Withdraw = ({
         {
           toAddress,
           amount: numericAmount,
+          currency: activeSection === "solana" ? "SOL" : "ETH",
         },
         {
           headers: {
@@ -55,7 +65,7 @@ const Withdraw = ({
           },
         }
       );
-
+      //TODO TOAST OR SOMETHING
       setSuccess(`Withdrawal initiated! TX Hash: ${response.data.txHash}`);
       refreshUser();
     } catch (err: any) {
@@ -112,7 +122,7 @@ const Withdraw = ({
             animate={{ scale: 1 }}
             className="text-4xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent mb-2"
           >
-            Withdraw Funds
+            Withdraw {activeSection === "solana" ? "SOL" : "ETH"}
           </motion.h2>
           <p className="text-gray-400">Transfer assets from your Nova wallet</p>
         </div>
@@ -122,13 +132,17 @@ const Withdraw = ({
             <p className="text-gray-300 flex justify-between">
               <span>Current Balance:</span>
               <span className="text-purple-400">
-                {user.balance?.toFixed(4)} ETH
+                {activeSection === "solana"
+                  ? user.solBalance?.toFixed(4) + " SOL"
+                  : user.ethBalance?.toFixed(4) + " ETH"}
               </span>
             </p>
             <p className="text-gray-300 flex justify-between">
               <span>Your Address:</span>
               <span className="text-blue-400 truncate max-w-[160px]">
-                {user.depositAddress}
+                {activeSection === "solana"
+                  ? user.solDepositAddress
+                  : user.ethDepositAddress}
               </span>
             </p>
           </div>
@@ -147,7 +161,9 @@ const Withdraw = ({
                 value={toAddress}
                 onChange={(e) => setToAddress(e.target.value)}
                 className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/20 outline-none transition-all placeholder:text-gray-600"
-                placeholder="0x..."
+                placeholder={
+                  activeSection === "solana" ? "Solana address..." : "0x..."
+                }
                 required
               />
             </div>
@@ -156,7 +172,7 @@ const Withdraw = ({
           <div>
             <label className="text-sm text-gray-300 mb-2 flex items-center gap-2">
               <FiDollarSign className="text-lg" />
-              Amount (ETH)
+              Amount ({activeSection === "solana" ? "SOL" : "ETH"})
             </label>
             <div className="relative">
               <input
@@ -196,7 +212,9 @@ const Withdraw = ({
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             type="submit"
-            disabled={loading || !user?.depositAddress}
+            disabled={
+              loading || !user?.ethDepositAddress || !user?.solDepositAddress
+            }
             className="w-full py-3.5 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg font-semibold text-lg flex items-center justify-center gap-2 hover:shadow-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <FiArrowUp className="text-xl" />

@@ -68,7 +68,7 @@
 
 - [ ] Token List -> Token DB
 - [x] Sol Deposit
-- [ ] Sol Withdraw
+- [x] Sol Withdraw
 - [ ] Making contract calls using InBuilt Wallet
 
 ## V3 Features

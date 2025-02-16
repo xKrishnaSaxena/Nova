@@ -1,10 +1,15 @@
 import { Request, Response } from "express";
 import { Withdrawal } from "./../models/withdrawal";
-import { sendTransaction } from "../services/blockchain";
+import { sendSolanaTransaction, sendTransaction } from "../services/blockchain";
 
 export const initiateWithdrawal = async (req: Request, res: Response) => {
   try {
-    const { toAddress, amount } = req.body;
+    const { toAddress, amount, currency } = req.body;
+
+    if (!currency || !["ETH", "SOL"].includes(currency)) {
+      res.status(400).json({ message: "Invalid currency" });
+      return;
+    }
 
     if (!toAddress || !amount) {
       res.status(400).json({ message: "Missing required fields" });
@@ -21,21 +26,24 @@ export const initiateWithdrawal = async (req: Request, res: Response) => {
       res.status(401).json({ message: "User not authenticated" });
       return;
     }
-
-    if (user.balance < amount) {
+    const balanceField = `${currency.toLowerCase()}Balance`;
+    if (user[balanceField] < amount) {
       res.status(400).json({ message: "Insufficient balance" });
       return;
     }
 
-    if (!user.depositAddress || !user.privateKey) {
-      res.status(400).json({ message: "User wallet not configured" });
+    const addressField = `${currency.toLowerCase()}DepositAddress`;
+    const privateKeyField = `${currency.toLowerCase()}PrivateKey`;
+    if (!user[addressField] || !user[privateKeyField]) {
+      res.status(400).json({ message: "Wallet not configured" });
       return;
     }
 
     const withdrawal = new Withdrawal({
       user: user._id,
       amount,
-      fromAddress: user.depositAddress,
+      currency,
+      fromAddress: user[addressField],
       toAddress,
       status: "pending",
       txHash: "pending-" + Date.now(),
@@ -44,12 +52,23 @@ export const initiateWithdrawal = async (req: Request, res: Response) => {
     await withdrawal.save();
 
     try {
-      const txHash = await sendTransaction(
-        user.privateKey,
-        user.depositAddress,
-        toAddress,
-        amount
-      );
+      let txHash;
+      if (currency === "ETH") {
+        txHash = await sendTransaction(
+          user[privateKeyField],
+          user[addressField],
+          toAddress,
+          amount
+        );
+      } else {
+        txHash = await sendSolanaTransaction(
+          user[privateKeyField],
+          user[addressField],
+          toAddress,
+          amount
+        );
+      }
+
       withdrawal.txHash = txHash;
       await withdrawal.save();
       res.status(201).json(withdrawal);

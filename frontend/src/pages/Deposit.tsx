@@ -121,6 +121,7 @@ const Deposit = ({
                 <div className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg flex items-center justify-between">
                   <span className="truncate">{depositAddress}</span>
                   <button className="text-purple-400 hover:text-purple-300 ml-2">
+                    {/*TODO - COPY BUTTON NOT WORKING*/}
                     <FiCopy className="text-xl" />
                   </button>
                 </div>
