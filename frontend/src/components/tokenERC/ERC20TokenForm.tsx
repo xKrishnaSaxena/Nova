@@ -45,7 +45,7 @@ const ERC20TokenForm: FC<ERC20TokenFormProps> = ({
           placeholder="My Awesome Token"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/20 outline-none transition-all placeholder:text-gray-600"
+          className="text-white w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/20 outline-none transition-all placeholder:text-gray-600"
           required
         />
       </div>
@@ -60,7 +60,7 @@ const ERC20TokenForm: FC<ERC20TokenFormProps> = ({
           placeholder="MAT"
           value={symbol}
           onChange={(e) => setSymbol(e.target.value)}
-          className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/20 outline-none transition-all placeholder:text-gray-600"
+          className="text-white w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/20 outline-none transition-all placeholder:text-gray-600"
           required
         />
       </div>

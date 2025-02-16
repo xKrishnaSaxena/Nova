@@ -56,7 +56,7 @@ const TransferTokensForm: FC = () => {
           placeholder="0x..."
           value={tokenAddress}
           onChange={(e) => setTokenAddress(e.target.value)}
-          className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all placeholder:text-gray-600"
+          className="text-white w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all placeholder:text-gray-600"
           required
         />
       </div>
@@ -71,7 +71,7 @@ const TransferTokensForm: FC = () => {
           placeholder="0x..."
           value={recipient}
           onChange={(e) => setRecipient(e.target.value)}
-          className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all placeholder:text-gray-600"
+          className="text-white w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all placeholder:text-gray-600"
           required
         />
       </div>
@@ -86,7 +86,7 @@ const TransferTokensForm: FC = () => {
           placeholder="Enter amount"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
-          className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all placeholder:text-gray-600"
+          className="text-white w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-blue-500/50 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all placeholder:text-gray-600"
           required
         />
       </div>

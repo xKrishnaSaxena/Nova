@@ -97,7 +97,7 @@ const SwapForm: React.FC = () => {
             placeholder="Token mint address (e.g. So111...)"
             value={inputToken}
             onChange={(e) => setInputToken(e.target.value)}
-            className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/20 outline-none transition-all placeholder:text-gray-600"
+            className="text-white w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/20 outline-none transition-all placeholder:text-gray-600"
           />
         </div>
 
@@ -115,7 +115,7 @@ const SwapForm: React.FC = () => {
             placeholder="Token mint address (e.g. EPjFW...)"
             value={outputToken}
             onChange={(e) => setOutputToken(e.target.value)}
-            className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/20 outline-none transition-all placeholder:text-gray-600"
+            className="text-white w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/20 outline-none transition-all placeholder:text-gray-600"
           />
         </div>
 
@@ -129,7 +129,7 @@ const SwapForm: React.FC = () => {
             placeholder="Enter amount to swap"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
-            className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/20 outline-none transition-all placeholder:text-gray-600"
+            className="text-white w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/20 outline-none transition-all placeholder:text-gray-600"
           />
         </div>
 

@@ -88,6 +88,7 @@ const Sidebar = ({ isOpen, activeSection }: SidebarProps) => {
                 <FiArrowRight />
               )}
               {sidebarItem("/erc-burn", "Burn ERC-20 Token", <FiTrash2 />)}
+              {sidebarItem("/erc-manage", "Manage Authorities", <FiLock />)}
               {/* {sidebarItem("#", "Create Liquidity Pools", <FiUsers />, true)}
               {sidebarItem("#", "Add Liquidity", <FiUsers />, true)} */}
             </>

@@ -1,12 +1,11 @@
 import { FC, useState } from "react";
 import { motion } from "framer-motion";
-import { AuthorityType } from "@solana/spl-token";
 import { FiKey, FiUsers, FiRefreshCw, FiAlertOctagon } from "react-icons/fi";
 
 interface ManageAuthorityFormProps {
   onSubmit: (
-    mintAddress: string,
-    authorityType: AuthorityType,
+    tokenAddress: string,
+    authorityType: "mint" | "freeze",
     newAuthority: string
   ) => Promise<void>;
   disabled?: boolean;
@@ -16,15 +15,13 @@ const ManageAuthorityForm: FC<ManageAuthorityFormProps> = ({
   onSubmit,
   disabled,
 }) => {
-  const [mintAddress, setMintAddress] = useState("");
-  const [authorityType, setAuthorityType] = useState<AuthorityType>(
-    AuthorityType.MintTokens
-  );
+  const [tokenAddress, setTokenAddress] = useState("");
+  const [authorityType, setAuthorityType] = useState<"mint" | "freeze">("mint");
   const [newAuthority, setNewAuthority] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await onSubmit(mintAddress, authorityType, newAuthority.trim());
+    await onSubmit(tokenAddress, authorityType, newAuthority.trim());
   };
 
   return (
@@ -37,14 +34,14 @@ const ManageAuthorityForm: FC<ManageAuthorityFormProps> = ({
       <div>
         <label className="text-sm text-gray-300 mb-2 flex items-center gap-2">
           <FiKey className="text-lg" />
-          Token Mint Address
+          Token Address
         </label>
         <input
           type="text"
-          value={mintAddress}
-          onChange={(e) => setMintAddress(e.target.value)}
+          value={tokenAddress}
+          onChange={(e) => setTokenAddress(e.target.value)}
           disabled={disabled}
-          placeholder="Enter token mint address"
+          placeholder="Enter token contract address"
           className="text-white w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/20 outline-none transition-all placeholder:text-gray-600 disabled:opacity-50"
           required
         />
@@ -59,15 +56,13 @@ const ManageAuthorityForm: FC<ManageAuthorityFormProps> = ({
           <select
             value={authorityType}
             onChange={(e) =>
-              setAuthorityType(parseInt(e.target.value, 10) as AuthorityType)
+              setAuthorityType(e.target.value as "mint" | "freeze")
             }
             disabled={disabled}
             className="text-white w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/20 outline-none transition-all appearance-none disabled:opacity-50"
           >
-            <option value={AuthorityType.MintTokens}>Mint Authority</option>
-            <option value={AuthorityType.FreezeAccount}>
-              Freeze Authority
-            </option>
+            <option value="mint">Mint Authority</option>
+            <option value="freeze">Freeze Authority</option>
           </select>
           <FiRefreshCw className="absolute right-4 top-4 text-gray-400" />
         </div>
@@ -83,8 +78,9 @@ const ManageAuthorityForm: FC<ManageAuthorityFormProps> = ({
           value={newAuthority}
           onChange={(e) => setNewAuthority(e.target.value)}
           disabled={disabled}
-          placeholder="Enter new authority address (leave empty to revoke)"
+          placeholder="Enter new authority address (0x...)"
           className="text-white w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/20 outline-none transition-all placeholder:text-gray-600 disabled:opacity-50"
+          required
         />
       </div>
 

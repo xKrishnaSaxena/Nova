@@ -1,5 +1,6 @@
 import { ethers } from "ethers";
 import { abi } from "./abi";
+import { tokenABI } from "./abiv2";
 declare global {
   interface Window {
     ethereum?: any;
@@ -111,6 +112,81 @@ export async function transferTokens(
     console.log(`Successfully transferred ${amount} tokens to ${recipient}`);
   } catch (error) {
     console.error("Error transferring tokens:", error);
+    throw error;
+  }
+}
+export async function setMintAuthority(
+  tokenAddress: string,
+  newAuthority: string
+): Promise<void> {
+  if (!window.ethereum) throw new Error("MetaMask required!");
+
+  const provider = new ethers.BrowserProvider(window.ethereum);
+  const signer = await provider.getSigner();
+  const tokenContract = new ethers.Contract(tokenAddress, tokenABI, signer);
+
+  try {
+    const tx = await tokenContract.setMintAuthority(newAuthority);
+    await tx.wait();
+    console.log("Mint authority updated");
+  } catch (error) {
+    console.error("Error updating mint authority:", error);
+    throw error;
+  }
+}
+
+export async function setFreezeAuthority(
+  tokenAddress: string,
+  newAuthority: string
+): Promise<void> {
+  if (!window.ethereum) throw new Error("MetaMask required!");
+
+  const provider = new ethers.BrowserProvider(window.ethereum);
+  const signer = await provider.getSigner();
+  const tokenContract = new ethers.Contract(tokenAddress, tokenABI, signer);
+
+  try {
+    const tx = await tokenContract.setFreezeAuthority(newAuthority);
+    await tx.wait();
+    console.log("Freeze authority updated");
+  } catch (error) {
+    console.error("Error updating freeze authority:", error);
+    throw error;
+  }
+}
+
+export async function freezeAccount(
+  tokenAddress: string,
+  account: string
+): Promise<void> {
+  const provider = new ethers.BrowserProvider(window.ethereum);
+  const signer = await provider.getSigner();
+  const tokenContract = new ethers.Contract(tokenAddress, tokenABI, signer);
+
+  try {
+    const tx = await tokenContract.freeze(account);
+    await tx.wait();
+    console.log("Account frozen");
+  } catch (error) {
+    console.error("Freeze error:", error);
+    throw error;
+  }
+}
+
+export async function unfreezeAccount(
+  tokenAddress: string,
+  account: string
+): Promise<void> {
+  const provider = new ethers.BrowserProvider(window.ethereum);
+  const signer = await provider.getSigner();
+  const tokenContract = new ethers.Contract(tokenAddress, tokenABI, signer);
+
+  try {
+    const tx = await tokenContract.unfreeze(account);
+    await tx.wait();
+    console.log("Account unfrozen");
+  } catch (error) {
+    console.error("UnFreeze error:", error);
     throw error;
   }
 }

@@ -16,6 +16,7 @@ import BurnPage from "./pages/tokenERC/BurnTokenERC";
 import TransferPage from "./pages/tokenERC/TransferTokenERC";
 import SwapSPL from "./pages/tokenSPL/SwapSPL";
 import CreatedTokens from "./components/tokenSPL/TokenList";
+import ManageAuthorityERC20Page from "./pages/tokenERC/ManageAuthoritiesERC";
 
 function App({ activeSection }: { activeSection: "solana" | "ethereum" }) {
   return (
@@ -41,6 +42,7 @@ function App({ activeSection }: { activeSection: "solana" | "ethereum" }) {
       <Route path="/erc-mint" element=<MintTokenPageERC /> />
       <Route path="/erc-burn" element=<BurnPage /> />
       <Route path="/erc-transfer" element=<TransferPage /> />
+      <Route path="/erc-manage" element=<ManageAuthorityERC20Page /> />
       <Route
         path="/created-tokens"
         element=<CreatedTokens activeSection={activeSection} />
