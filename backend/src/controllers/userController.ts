@@ -7,19 +7,23 @@ export const getUser = async (req: Request, res: Response) => {
       res.status(404).json({ message: "User not found" });
       return;
     }
-    if (!user.depositAddress) {
+    if (!user.ethDepositAddress || !user.solDepositAddress) {
       res.status(200).json({
         username: user.username,
-        depositAddress: "",
-        balance: user.balance,
+        ethDepositAddress: "",
+        ethbalance: user.ethBalance,
+        solDepositAddress: "",
+        solBalance: user.solBalance,
       });
       return;
     }
 
     res.status(200).json({
       username: user.username,
-      depositAddress: user.depositAddress,
-      balance: user.balance,
+      ethDepositAddress: user.ethDepositAddress,
+      solDepositAddress: user.solDepositAddress,
+      ethBalance: user.ethBalance,
+      solBalance: user.solBalance,
     });
     return;
   } catch (error) {

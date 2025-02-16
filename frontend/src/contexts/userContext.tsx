@@ -41,7 +41,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     fetchUser();
-  }, []);
+  }, [token]);
 
   return (
     <UserContext.Provider value={{ user, setUser, refreshUser: fetchUser }}>

@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -9,14 +9,13 @@ import CreateTokenPage from "./pages/tokenSPL/CreateTokenSPL";
 import MintTokenPage from "./pages/tokenSPL/MintTokenSPL";
 import TransferTokenPage from "./pages/tokenSPL/TransferTokenSPL";
 import BurnTokenPage from "./pages/tokenSPL/BurnTokenSPL";
-
 import ManageAuthorityPage from "./pages/tokenSPL/ManageAuthoritySPL";
 import CreateTokenPageERC from "./pages/tokenERC/CreateTokenERC";
 import MintTokenPageERC from "./pages/tokenERC/MintTokenERC";
 import BurnPage from "./pages/tokenERC/BurnTokenERC";
 import TransferPage from "./pages/tokenERC/TransferTokenERC";
 import SwapSPL from "./pages/tokenSPL/SwapSPL";
-import { act } from "react";
+import CreatedTokens from "./components/tokenSPL/TokenList";
 
 function App({ activeSection }: { activeSection: "solana" | "ethereum" }) {
   return (
@@ -42,6 +41,10 @@ function App({ activeSection }: { activeSection: "solana" | "ethereum" }) {
       <Route path="/erc-mint" element=<MintTokenPageERC /> />
       <Route path="/erc-burn" element=<BurnPage /> />
       <Route path="/erc-transfer" element=<TransferPage /> />
+      <Route
+        path="/created-tokens"
+        element=<CreatedTokens activeSection={activeSection} />
+      />
     </Routes>
   );
 }

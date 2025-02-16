@@ -1,19 +1,20 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
-import { encrypt } from "../utils/crypto";
 
 export interface IUser {
   username: string;
   email: string;
   password: string;
-  depositAddress: string;
-  privateKey: string;
-  balance: number;
+  ethDepositAddress: string;
+  solDepositAddress: string;
+  ethPrivateKey: string;
+  solPrivateKey: string;
+  ethBalance: number;
+  solBalance: number;
 }
 
 interface UserDocument extends IUser, mongoose.Document {
   comparePassword(password: string): Promise<boolean>;
-  comparePrivateKey(privateKey: string): Promise<boolean>;
 }
 
 const UserSchema = new mongoose.Schema<UserDocument>({
@@ -31,15 +32,27 @@ const UserSchema = new mongoose.Schema<UserDocument>({
     type: String,
     required: true,
   },
-  depositAddress: {
+  ethDepositAddress: {
     type: String,
     default: "",
   },
-  privateKey: {
+  solDepositAddress: {
     type: String,
     default: "",
   },
-  balance: {
+  ethPrivateKey: {
+    type: String,
+    default: "",
+  },
+  solPrivateKey: {
+    type: String,
+    default: "",
+  },
+  ethBalance: {
+    type: Number,
+    default: 0,
+  },
+  solBalance: {
     type: Number,
     default: 0,
   },
@@ -49,9 +62,6 @@ UserSchema.pre<UserDocument>("save", async function (next) {
   if (this.isModified("password")) {
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
-  }
-  if (this.isModified("privateKey") && this.privateKey) {
-    this.privateKey = encrypt(this.privateKey);
   }
   next();
 });

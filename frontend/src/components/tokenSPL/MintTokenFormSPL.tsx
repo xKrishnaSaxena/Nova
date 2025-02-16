@@ -37,7 +37,7 @@ const MintTokenFormSPL: FC<MintTokenFormProps> = ({ onMint }) => {
           placeholder="Enter token mint address"
           value={mintAddress}
           onChange={(e) => setMintAddress(e.target.value)}
-          className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/20 outline-none transition-all placeholder:text-gray-600"
+          className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/20 outline-none transition-all placeholder:text-gray-600 text-white"
           required
         />
       </div>
@@ -52,7 +52,7 @@ const MintTokenFormSPL: FC<MintTokenFormProps> = ({ onMint }) => {
           placeholder="Enter recipient address"
           value={recipient}
           onChange={(e) => setRecipient(e.target.value)}
-          className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/20 outline-none transition-all placeholder:text-gray-600"
+          className="text-white w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/20 outline-none transition-all placeholder:text-gray-600"
           required
         />
       </div>
@@ -67,7 +67,7 @@ const MintTokenFormSPL: FC<MintTokenFormProps> = ({ onMint }) => {
           placeholder="Enter amount to mint"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
-          className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/20 outline-none transition-all placeholder:text-gray-600"
+          className="text-white w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/20 outline-none transition-all placeholder:text-gray-600"
           required
         />
       </div>

@@ -1,4 +1,3 @@
-// CreateTokenFormSPL.tsx
 import { FC, useState } from "react";
 import { motion } from "framer-motion";
 import { FiPenTool, FiHash, FiImage, FiPlus } from "react-icons/fi";

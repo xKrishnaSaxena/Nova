@@ -41,7 +41,7 @@ export default function MintTokenPage() {
         recipientPublicKey,
         amountNumber
       );
-
+      console.log(transaction);
       transaction.feePayer = wallet.publicKey;
       const { blockhash } = await connection.getLatestBlockhash();
       transaction.recentBlockhash = blockhash;

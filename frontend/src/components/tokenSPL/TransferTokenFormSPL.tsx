@@ -42,7 +42,7 @@ const TransferTokenForm: FC<TransferTokenFormProps> = ({
           value={mintAddress}
           onChange={(e) => setMintAddress(e.target.value)}
           disabled={disabled}
-          className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/20 outline-none transition-all placeholder:text-gray-600 disabled:opacity-50"
+          className="text-white w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/20 outline-none transition-all placeholder:text-gray-600 disabled:opacity-50"
           required
         />
       </div>
@@ -58,7 +58,7 @@ const TransferTokenForm: FC<TransferTokenFormProps> = ({
           value={recipient}
           onChange={(e) => setRecipient(e.target.value)}
           disabled={disabled}
-          className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/20 outline-none transition-all placeholder:text-gray-600 disabled:opacity-50"
+          className="text-white w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/20 outline-none transition-all placeholder:text-gray-600 disabled:opacity-50"
           required
         />
       </div>
@@ -74,7 +74,7 @@ const TransferTokenForm: FC<TransferTokenFormProps> = ({
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
           disabled={disabled}
-          className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/20 outline-none transition-all placeholder:text-gray-600 disabled:opacity-50"
+          className="text-white w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg focus:border-purple-500/50 focus:ring-2 focus:ring-purple-500/20 outline-none transition-all placeholder:text-gray-600 disabled:opacity-50"
           required
         />
       </div>

@@ -15,7 +15,6 @@ const Deposit = ({
   const BACKEND_URL = "http://localhost:3000";
   const { user } = useUser();
   const [depositAddress, setDepositAddress] = useState("");
-  const [error, setError] = useState<string | null>(null);
 
   const authContext = useContext(AuthContext);
   if (!authContext) {
@@ -27,15 +26,23 @@ const Deposit = ({
     e.preventDefault();
     try {
       const response = await axios.post<{
-        depositAddress?: string;
+        ethDepositAddress?: string;
+        solDepositAddress?: string;
+
         message?: string;
       }>(`${BACKEND_URL}/api/deposit/generate`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      if (response.data.depositAddress)
-        setDepositAddress(response.data.depositAddress);
+      if (activeSection === "ethereum" && response.data.ethDepositAddress) {
+        setDepositAddress(response.data.ethDepositAddress);
+      } else if (
+        activeSection === "solana" &&
+        response.data.solDepositAddress
+      ) {
+        setDepositAddress(response.data.solDepositAddress);
+      }
     } catch (error) {
       alert("Deposit address generation failed!");
       console.log(error);
@@ -43,8 +50,14 @@ const Deposit = ({
   };
 
   useEffect(() => {
-    if (user?.depositAddress) setDepositAddress(user.depositAddress);
-  }, [user]);
+    if (user) {
+      const address =
+        activeSection === "ethereum"
+          ? user.ethDepositAddress
+          : user.solDepositAddress;
+      setDepositAddress(address || "");
+    }
+  }, [user, activeSection]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#0a0a0a] to-[#141414] flex items-center justify-center p-4">
