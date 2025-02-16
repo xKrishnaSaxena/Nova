@@ -17,25 +17,20 @@
   - [x] Burn
   - [ ] Swap
   - [ ] Manage Authority
-  - [ ] Create Liquidity Pools
-  - [ ] Add Liquidity
 - [x] Token (SPL - DAPP)
   - [x] Create
   - [x] Mint
   - [x] Transfer
   - [x] Burn
   - [x] Swap
-  - [x] Revoke Freeze and Mint Authorities
   - [x] Manage Authority
-  - [ ] Create Liquidity Pools
-  - [ ] Add Liquidity
 - [ ] NFT (SPL - DAPP)
 - [x] UI
   - [x] Navbar
   - [x] Sidebar
   - [x] Background Motion
   - [x] Forms
-- [ ] Pages UI
+- [x] Pages UI
   - [x] Home
   - [x] Login
   - [x] Signup
@@ -72,7 +67,7 @@
 ## V2 Features
 
 - [ ] Token List -> Token DB
-- [ ] Sol Deposit
+- [x] Sol Deposit
 - [ ] Sol Withdraw
 - [ ] Making contract calls using InBuilt Wallet
 
