@@ -36,18 +36,20 @@
   - [x] Signup
   - [x] Deposit
   - [x] Withdraw
-  - [x] SPL Theme
+  - [x] SPL
     - [x] Create Token
     - [x] Mint Token
     - [x] Transfer Token
     - [x] Burn Token
     - [x] Manage Authorities
     - [x] Swap Tokens
-  - [x] ERC-20 Theme
+  - [x] ERC-20
     - [x] Create Token
     - [x] Mint Token
     - [x] Burn Token
     - [x] Transfer Token
+    - [x] Manage Authorities
+    - [x] Swap Tokens
 
 ## Backend
 

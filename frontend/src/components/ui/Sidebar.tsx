@@ -7,7 +7,6 @@ import {
   FiTrash2,
   FiRefreshCw,
   FiLock,
-  FiUsers,
 } from "react-icons/fi";
 import { useNavigate, useLocation } from "react-router-dom";
 
