@@ -17,6 +17,7 @@ import TransferPage from "./pages/tokenERC/TransferTokenERC";
 import SwapSPL from "./pages/tokenSPL/SwapSPL";
 import CreatedTokens from "./components/tokenSPL/TokenList";
 import ManageAuthorityERC20Page from "./pages/tokenERC/ManageAuthoritiesERC";
+import CreatedTokensERC from "./components/tokenERC/ERC20TokenList";
 
 function App({ activeSection }: { activeSection: "solana" | "ethereum" }) {
   return (
@@ -44,8 +45,12 @@ function App({ activeSection }: { activeSection: "solana" | "ethereum" }) {
       <Route path="/erc-transfer" element=<TransferPage /> />
       <Route path="/erc-manage" element=<ManageAuthorityERC20Page /> />
       <Route
-        path="/created-tokens"
+        path="/tokens-spl"
         element=<CreatedTokens activeSection={activeSection} />
+      />
+      <Route
+        path="/tokens-erc"
+        element=<CreatedTokensERC activeSection={activeSection} />
       />
     </Routes>
   );

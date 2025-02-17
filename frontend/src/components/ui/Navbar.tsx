@@ -55,6 +55,32 @@ export default function NavBarComponent({
 
   const handleChainSwitch = (chain: "solana" | "ethereum") => {
     setActiveSection(chain);
+    setIsSidebarOpen(true);
+
+    const currentPath = location.pathname;
+
+    // Define route mappings between Solana and Ethereum
+    const routeMappings: Record<string, string> = {
+      "/spl-create": "/erc-create",
+      "/erc-create": "/spl-create",
+      "/spl-mint": "/erc-mint",
+      "/erc-mint": "/spl-mint",
+      "/spl-transfer": "/erc-transfer",
+      "/erc-transfer": "/spl-transfer",
+      "/spl-burn": "/erc-burn",
+      "/erc-burn": "/spl-burn",
+      "/spl-manage": "/erc-manage",
+      "/erc-manage": "/spl-manage",
+      "/tokens-spl": "/tokens-erc",
+      "/tokens-erc": "/tokens-spl",
+      "/erc-swap": "/spl-swap",
+    };
+
+    const newPath = routeMappings[currentPath];
+
+    if (newPath) {
+      navigate(newPath, { replace: true });
+    }
   };
   const [isCopied, setIsCopied] = useState(false);
 
@@ -246,14 +272,25 @@ export default function NavBarComponent({
                 )}
               </div>
               <div className="p-2 border-t border-white/10">
-                <motion.button
-                  onClick={() => navigate("/created-tokens")}
-                  whileHover={{ scale: 1.02 }}
-                  className="w-full flex text-white items-center gap-3 px-4 py-2.5 text-sm hover:bg-white/5"
-                >
-                  <FiList className="text-purple-400" />
-                  My Tokens
-                </motion.button>
+                {activeSection === "ethereum" ? (
+                  <motion.button
+                    onClick={() => navigate("/tokens-erc")}
+                    whileHover={{ scale: 1.02 }}
+                    className="w-full flex text-white items-center gap-3 px-4 py-2.5 text-sm hover:bg-white/5"
+                  >
+                    <FiList className="text-purple-400" />
+                    My Tokens
+                  </motion.button>
+                ) : (
+                  <motion.button
+                    onClick={() => navigate("/tokens-spl")}
+                    whileHover={{ scale: 1.02 }}
+                    className="w-full flex text-white items-center gap-3 px-4 py-2.5 text-sm hover:bg-white/5"
+                  >
+                    <FiList className="text-purple-400" />
+                    My Tokens
+                  </motion.button>
+                )}
               </div>
 
               {user && (

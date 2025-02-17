@@ -4,8 +4,10 @@ import { AuthContext } from "./authContext";
 
 interface User {
   username: string;
-  depositAddress?: string;
-  balance: number;
+  ethDepositAddress?: string;
+  solDepositAddress?: string;
+  ethBalance: number;
+  solBalance: number;
 }
 
 interface UserContextType {
