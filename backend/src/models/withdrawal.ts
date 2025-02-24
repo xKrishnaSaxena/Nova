@@ -10,8 +10,8 @@ export interface IWithdrawal {
   confirmedAt?: Date;
   fromAddress: string;
   toAddress: string;
-  slot?: number; // Solana-specific
-  blockNumber?: number; // Ethereum-specific
+  slot?: number;
+  blockNumber?: number;
 }
 
 interface WithdrawalDocument extends IWithdrawal, mongoose.Document {}

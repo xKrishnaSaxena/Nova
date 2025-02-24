@@ -6,6 +6,7 @@ import { useUser } from "../contexts/userContext";
 import { motion } from "framer-motion";
 import { FiCopy } from "react-icons/fi";
 import { FaWallet } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Deposit = ({
   activeSection,
@@ -106,7 +107,27 @@ const Deposit = ({
           <p className="text-gray-400">Receive assets to your Nova wallet</p>
         </div>
 
-        {depositAddress ? (
+        {!token ? (
+          <div className="space-y-6 text-center">
+            <p className="text-gray-400">
+              Please log in or sign up to generate a deposit address.
+            </p>
+            <div className="flex flex-col gap-4">
+              <Link
+                to="/login"
+                className="w-full py-3.5 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg font-semibold text-lg hover:shadow-xl transition-all"
+              >
+                Log In
+              </Link>
+              <Link
+                to="/signup"
+                className="w-full py-3.5 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg font-semibold text-lg hover:shadow-xl transition-all"
+              >
+                Sign Up
+              </Link>
+            </div>
+          </div>
+        ) : depositAddress ? (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

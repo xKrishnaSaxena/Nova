@@ -1,6 +1,7 @@
 # Order Of The Day
 
 - [x] Env Setup
+- [x] Only authenticated users can access
 
 ## Frontend
 
@@ -15,8 +16,7 @@
   - [x] Mint
   - [x] Transfer
   - [x] Burn
-  - [ ] Swap
-  - [ ] Manage Authority
+  - [x] Manage Authority
 - [x] Token (SPL - DAPP)
   - [x] Create
   - [x] Mint
@@ -24,7 +24,6 @@
   - [x] Burn
   - [x] Swap
   - [x] Manage Authority
-- [ ] NFT (SPL - DAPP)
 - [x] UI
   - [x] Navbar
   - [x] Sidebar
@@ -68,13 +67,13 @@
 
 ## V2 Features
 
-- [ ] Token List -> Token DB
+- [x] Token List
 - [x] Sol Deposit
 - [x] Sol Withdraw
-- [ ] Making contract calls using InBuilt Wallet
 
 ## V3 Features
 
+- [ ] NFT (SPL - DAPP)
 - [ ] Staking
 - [ ] Bridge
 - [ ] Trade (Maybe)
