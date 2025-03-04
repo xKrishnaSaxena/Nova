@@ -19,7 +19,7 @@ interface UserContextType {
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
-  const BACKEND_URL = "http://localhost:3000";
+  const BACKEND_URL = "https://nova-backend-as1d.onrender.com/";
   const [user, setUser] = useState<User | null>(null);
 
   const authContext = useContext(AuthContext);
