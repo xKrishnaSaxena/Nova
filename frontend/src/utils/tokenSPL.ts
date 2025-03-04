@@ -184,6 +184,9 @@ export async function burnTokens(
   authority: PublicKey,
   amount: number
 ) {
+  if (!connection) {
+    console.log("Connection not established!");
+  }
   const tx = new Transaction();
   const burnAmount = amount * LAMPORTS_PER_SOL;
 

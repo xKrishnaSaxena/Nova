@@ -39,6 +39,7 @@ const Signup = ({
     } catch (error) {
       alert("Signup failed");
       console.log(error);
+      setError("error");
     }
   };
 

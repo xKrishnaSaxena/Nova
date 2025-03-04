@@ -38,43 +38,46 @@ const CreateTokenPageERC = () => {
           className="w-full h-full mt-12 text-purple-500/20"
         />
       </motion.div>
+      {error ? (
+        <>Error</>
+      ) : (
+        <div className="relative z-10 w-full max-w-2xl">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="bg-[#1a1a1a]/50 backdrop-blur-xl border border-white/10 rounded-2xl p-8 shadow-2xl"
+          >
+            <div className="text-center mb-8">
+              <motion.h1
+                initial={{ scale: 0.9 }}
+                animate={{ scale: 1 }}
+                className="text-4xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent mb-2"
+              >
+                Create ERC-20 Token
+              </motion.h1>
+              <p className="text-gray-400">
+                Deploy your custom ERC-20 token on Ethereum
+              </p>
+            </div>
 
-      <div className="relative z-10 w-full max-w-2xl">
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="bg-[#1a1a1a]/50 backdrop-blur-xl border border-white/10 rounded-2xl p-8 shadow-2xl"
-        >
-          <div className="text-center mb-8">
-            <motion.h1
-              initial={{ scale: 0.9 }}
-              animate={{ scale: 1 }}
-              className="text-4xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent mb-2"
-            >
-              Create ERC-20 Token
-            </motion.h1>
-            <p className="text-gray-400">
-              Deploy your custom ERC-20 token on Ethereum
-            </p>
-          </div>
+            {loading && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="mb-6 p-4 bg-blue-500/20 border border-blue-500/30 rounded-lg flex items-center justify-center gap-2"
+              >
+                <FiLoader className="animate-spin" />
+                <span className="text-blue-300">Deploying token...</span>
+              </motion.div>
+            )}
 
-          {loading && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="mb-6 p-4 bg-blue-500/20 border border-blue-500/30 rounded-lg flex items-center justify-center gap-2"
-            >
-              <FiLoader className="animate-spin" />
-              <span className="text-blue-300">Deploying token...</span>
-            </motion.div>
-          )}
-
-          <ERC20TokenForm
-            onCreate={handleCreateToken}
-            tokenAddress={tokenAddress}
-          />
-        </motion.div>
-      </div>
+            <ERC20TokenForm
+              onCreate={handleCreateToken}
+              tokenAddress={tokenAddress}
+            />
+          </motion.div>
+        </div>
+      )}
     </div>
   );
 };

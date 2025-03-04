@@ -2,14 +2,7 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../contexts/authContext";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import {
-  FiLock,
-  FiMail,
-  FiLogIn,
-  FiUserPlus,
-  FiGithub,
-  FiTwitter,
-} from "react-icons/fi";
+import { FiLock, FiMail, FiLogIn, FiGithub, FiTwitter } from "react-icons/fi";
 import { AiFillGoogleCircle } from "react-icons/ai";
 
 const Login = ({ activeSection }: { activeSection: "solana" | "ethereum" }) => {
@@ -32,6 +25,7 @@ const Login = ({ activeSection }: { activeSection: "solana" | "ethereum" }) => {
       navigate("/");
     } catch (error) {
       alert("Login failed");
+      setError("error");
     }
   };
 
