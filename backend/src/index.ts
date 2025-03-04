@@ -10,7 +10,10 @@ mongoose.connect(MONGO_URI).then(() => {
 });
 
 const app = express();
-app.use(cors());
+const corsOptions = {
+  origin: "https://nova-murex-nine.vercel.app",
+};
+app.use(cors(corsOptions));
 app.use(express.json());
 
 app.get("/", async (req, res) => {
