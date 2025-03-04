@@ -13,7 +13,7 @@ const Deposit = ({
 }: {
   activeSection: "solana" | "ethereum";
 }) => {
-  const BACKEND_URL = "https://nova-backend-as1d.onrender.com/";
+  const BACKEND_URL = "https://nova-backend-as1d.onrender.com";
   const { user } = useUser();
   const [depositAddress, setDepositAddress] = useState("");
 

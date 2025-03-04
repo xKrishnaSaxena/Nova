@@ -21,7 +21,7 @@ const Withdraw = ({
 }: {
   activeSection: "solana" | "ethereum";
 }) => {
-  const BACKEND_URL = "https://nova-backend-as1d.onrender.com/";
+  const BACKEND_URL = "https://nova-backend-as1d.onrender.com";
   const [amount, setAmount] = useState("");
   const [toAddress, setToAddress] = useState("");
   const [loading, setLoading] = useState(false);

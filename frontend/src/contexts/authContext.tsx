@@ -8,7 +8,7 @@ interface AuthContextType {
   logout: () => void;
 }
 
-const BACKEND_URL = "https://nova-backend-as1d.onrender.com/";
+const BACKEND_URL = "https://nova-backend-as1d.onrender.com";
 export const AuthContext = createContext<AuthContextType | undefined>(
   undefined
 );
