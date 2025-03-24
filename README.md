@@ -1,4 +1,4 @@
-# 🚀 **NOVA: Cross-Chain Wallet & DeFi Platform**
+# 🚀 **NOVA: DeFi Platform & Cross-Chain Wallet **
 
 *Seamless Blockchain Interoperability*
 
